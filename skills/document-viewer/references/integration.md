@@ -4,12 +4,12 @@ Use DDV for web document viewing, page navigation, viewing images/PDFs, annotati
 
 Official docs: https://www.dynamsoft.com/document-viewer/docs/
 Official sample repo: https://github.com/Dynamsoft/document-viewer-samples
-Additional sample index: `references/samples.md`
+Additional sample index: `references/samples.md` in the `dynamsoft-sdk` skill
 
-License for generated examples in this repository: use the `YOUR_LICENSE_KEY` placeholder (or an environment variable) â€” never a real key.
+License for generated examples in this repository: use the `YOUR_LICENSE_KEY` placeholder (or an environment variable) — never a real key.
 
-Need a trial license? Apply here:
-https://www.dynamsoft.com/customer/license/trialLicense/?product=dcv&package=cross-platform
+Need a trial license? Call `get_trial_license` with `product: "ddv"`, or apply here:
+https://www.dynamsoft.com/customer/license/trialLicense/?product=ddv&package=web
 
 ## Sample-first links
 
@@ -54,7 +54,7 @@ For DDV integration, provide:
 ## Common pitfalls
 
 - Confusing DDV with DWT: DDV views/manages documents; DWT controls scanners.
-- Missing resource files after bundling. When DDV is built through a bundler (Vite/webpack/Rollup/Next.js) it cannot infer its own script URL, so the `.wasm`/worker assets are requested from the app origin and the server returns `index.html` instead â€” surfacing as `Uncaught SyntaxError: Unexpected token '<'`. Set the engine resource path explicitly before `Core.init()`, e.g. `Dynamsoft.DDV.Core.engineResourcePath = "./dynamsoft-document-viewer/dist/engine"` â€” copy the installed `dynamsoft-document-viewer` package's `dist/engine` folder next to your app and serve it from your own origin (never a runtime CDN). See the analogous `CoreModule.engineResourcePaths.rootDirectory` note in `the `capture-vision-web` skill` for the same root cause in DCV.
+- Missing resource files after bundling. When DDV is built through a bundler (Vite/webpack/Rollup/Next.js) it cannot infer its own script URL, so the `.wasm`/worker assets are requested from the app origin and the server returns `index.html` instead — surfacing as `Uncaught SyntaxError: Unexpected token '<'`. Set the engine resource path explicitly before `Core.init()`, e.g. `Dynamsoft.DDV.Core.engineResourcePath = "./dynamsoft-document-viewer/dist/engine"` — copy the installed `dynamsoft-document-viewer` package's `dist/engine` folder next to your app and serve it from your own origin (never a runtime CDN). See the analogous `CoreModule.engineResourcePaths.rootDirectory` note in the `capture-vision-web` skill for the same root cause in DCV.
 - Creating the viewer before the container DOM node exists.
 - Forgetting cleanup in SPA route changes.
 - Assuming all annotation/page APIs exist across every major version; verify exact APIs if the version is not provided.
