@@ -105,13 +105,13 @@ jobs:
         if: env.LICENSE_SET == '1'
         shell: bash
         run: |
+          set -euo pipefail
           cd tests/sdk-smoke/java
           javac -cp "lib/dbr-${DBR_JAR_VERSION}.jar" -d classes Scan.java
-          java -cp "lib/dbr-${DBR_JAR_VERSION}.jar${SEP}classes" Scan ../../../../fixture.png | tee ../../../../out-java.txt
-          grep -qE "^items: [1-9]" ../../../../out-java.txt
-        env:
-          SEP: ${{ runner.os == 'Windows' && ';' || ':' }}
-
+          if [ "$RUNNER_OS" = "Windows" ]; then SEP=";"; else SEP=":"; fi
+          java -cp "lib/dbr-${DBR_JAR_VERSION}.jar${SEP}classes" Scan "$GITHUB_WORKSPACE/fixture.png" \
+            | tee "$GITHUB_WORKSPACE/out-java.txt"
+          grep -qE "^items: [1-9]" "$GITHUB_WORKSPACE/out-java.txt"
       - name: .NET barcode decode
         if: env.LICENSE_SET == '1'
         shell: bash
