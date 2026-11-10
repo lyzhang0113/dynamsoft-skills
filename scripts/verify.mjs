@@ -100,6 +100,19 @@ for (const dir of skillDirs) {
   skillMeta.push({ dir, name, description });
 }
 
+// --- changelog --------------------------------------------------------------
+const changelog = join(root, "CHANGELOG.md");
+if (existsSync(changelog)) {
+  const text = readFileSync(changelog, "utf8");
+  check(
+    text.includes(`## [${claudePlugin.version}]`),
+    `CHANGELOG.md has no "## [${claudePlugin.version}]" section for the current plugin version`
+  );
+  check(/^## \[Unreleased\]/m.test(text), "CHANGELOG.md should keep an Unreleased section");
+} else {
+  problems.push("CHANGELOG.md is missing (Cursor's third-party layout expects one)");
+}
+
 // --- skills.sh grouping -----------------------------------------------------
 const groupsFile = join(root, "skills.sh.json");
 if (existsSync(groupsFile)) {

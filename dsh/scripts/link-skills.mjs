@@ -16,7 +16,13 @@ import { fileURLToPath } from "node:url";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const packageRoot = resolve(here, "..");
-const skillsDir = join(packageRoot, "skills");
+
+// A published package carries its own skills/ snapshot (prepare-skills.mjs builds it at
+// pack time). A Git install -- what the plugin index may point at before the npm release
+// -- has no snapshot, so fall back to the repository's skills/ directory one level up.
+const bundleSkills = join(packageRoot, "skills");
+const repSkills = resolve(packageRoot, "..", "skills");
+const skillsDir = existsSync(bundleSkills) ? bundleSkills : repSkills;
 
 const args = process.argv.slice(2);
 const dryRun = args.includes("--dry-run");

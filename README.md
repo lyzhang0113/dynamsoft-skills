@@ -88,6 +88,33 @@ dsh/               @dynamsoft/dsh-plugin bundle (DeepSeek Harness)
 scripts/verify.mjs manifest, frontmatter and bundle checks
 ```
 
+## Privacy and data flow
+
+The skills themselves are static text: they read nothing, send nothing, and run no code on their
+own. The only component that talks to the network is the separate
+[`dynamsoft-license-mcp`](https://github.com/Dynamsoft/dynamsoft-license-mcp) server, and only when
+a skill asks it for a license key:
+
+| Step | What happens | Where the data goes |
+| --- | --- | --- |
+| 1 | `get_trial_license` opens the Dynamsoft customer portal in your browser | your browser → `www.dynamsoft.com` |
+| 2 | You sign in with Google | Google → the Dynamsoft portal (the portal's own OAuth) |
+| 3 | The server reads the portal's session cookies over the DevTools protocol | local only |
+| 4 | It calls three portal endpoints (`User/Info`, `Trial/GetCompanyRecordList`, `Trial/RequestFromWeb`) | local → `www.dynamsoft.com` |
+| 5 | It stores the session and the key under `~/.dynamsoft-license-mcp` with owner-only permissions | local only |
+
+- **No telemetry.** Neither the skills nor the server report usage anywhere.
+- **No third-party services.** The only host contacted is `www.dynamsoft.com`; the server does not
+  use an analytics or proxy service.
+- **The key stays local.** It is never written to a log and never sent anywhere except the
+  Dynamsoft portal that issued it. Tool responses include a masked form, and the skills instruct the
+  agent to show only that.
+- **You can decline the sign-in.** `get_trial_page_url` returns the official application page
+  instead; apply there by hand and skip the MCP entirely.
+- **Signing out** is deleting `~/.dynamsoft-license-mcp`.
+
+Dynamsoft's own privacy policy: <https://www.dynamsoft.com/privacy/>.
+
 ## Development
 
 ```bash
