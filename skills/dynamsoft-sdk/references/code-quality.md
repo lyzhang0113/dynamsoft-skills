@@ -4,7 +4,7 @@
 
 Confirm or infer these fields:
 
-- Product: DWT, DDV, DBR, or DCV (see `the `dynamsoft-sdk` skill` for DBR as a DCV submodule)
+- Product: DWT, DDV, DBR, or DCV (see the `dynamsoft-sdk` skill for DBR as a DCV submodule)
 - Platform: web, mobile, server, desktop, or hybrid
 - Language/framework: JavaScript, TypeScript, React, Vue, Angular, Android/Kotlin, iOS/Swift, Flutter, React Native, C#, Python, Java, C++, Node.js
 - SDK version if provided
@@ -13,9 +13,9 @@ Confirm or infer these fields:
 
 ## DCV core API preference rule
 
-When generating DCV or DBR code, **always use the DCV core APIs** (`CaptureVisionRouter`, `CameraEnhancer`, `CameraView`, `CapturedResultReceiver`) directly. Do **not** use RTU (ready-to-use) wrapper components (`BarcodeScanner.createInstance()`, `BarcodeReader.createInstance()`, `DocumentScanner`, `MRZScanner`) as the primary API â€” they have poor programmability and flexibility and are only suitable for very simple use cases. RTU wrappers are built on top of the DCV core APIs and should only be mentioned as a quick-prototyping option with an explicit caveat about their limitations.
+When generating DCV or DBR code, **always use the DCV core APIs** (`CaptureVisionRouter`, `CameraEnhancer`, `CameraView`, `CapturedResultReceiver`) directly. Do **not** use RTU (ready-to-use) wrapper components (`BarcodeScanner.createInstance()`, `BarcodeReader.createInstance()`, `DocumentScanner`, `MRZScanner`) as the primary API — they have poor programmability and flexibility and are only suitable for very simple use cases. RTU wrappers are built on top of the DCV core APIs and should only be mentioned as a quick-prototyping option with an explicit caveat about their limitations.
 
-On server/desktop platforms (Python, C++, .NET, Java, Node.js), there are no RTU wrappers â€” `CaptureVisionRouter` is used directly.
+On server/desktop platforms (Python, C++, .NET, Java, Node.js), there are no RTU wrappers — `CaptureVisionRouter` is used directly.
 
 ## Do not hallucinate
 
@@ -29,7 +29,7 @@ When uncertain, prefer one of these safe patterns:
 
 For SDK setup code, include:
 
-- License initialization using a placeholder key (`YOUR_LICENSE_KEY`) or an environment variable â€” never a real key.
+- License initialization using a placeholder key (`YOUR_LICENSE_KEY`) or an environment variable — never a real key.
 - Resource path or model path configuration when needed.
 - Async initialization and error handling.
 - Cleanup/dispose/destroy behavior for UI components, camera sessions, scanner sessions, router instances, and listeners.
@@ -59,17 +59,17 @@ Use this order when debugging:
 
 ## Known error: `Uncaught SyntaxError: Unexpected token '<'` (web)
 
-Symptom: A Dynamsoft web SDK (DCV/DBR/DDV) throws `Uncaught SyntaxError: Unexpected token '<'` â€” often when `LicenseManager.initLicense()` runs or when `router.capture()` first loads an engine, even though installation and license look correct.
+Symptom: A Dynamsoft web SDK (DCV/DBR/DDV) throws `Uncaught SyntaxError: Unexpected token '<'` — often when `LicenseManager.initLicense()` runs or when `router.capture()` first loads an engine, even though installation and license look correct.
 
 Cause: The app uses a bundler (Vite, webpack, Rollup, Next.js, etc.). Bundlers prevent the SDK from inferring its own script URL, so the SDK requests `.wasm`/worker assets from the app's own origin. The dev/prod server answers those requests with the SPA `index.html`, and the leading `<` of that HTML is what the JS engine chokes on.
 
 Fix: Set the engine resource path explicitly **before** initializing the license:
 
-- DCV/DBR bundle: `CoreModule.engineResourcePaths.rootDirectory = "/dynamsoft/";` â€” the property is `rootDirectory` (NOT `root`), and the value is the directory the SDK's `dist` assets are served from (the SDK appends `<package>@<version>/dist/` itself). Self-host those assets (copy the installed package's `dist` folder under that layout) â€” never point the engine at a third-party CDN at runtime.
-- DDV: `Dynamsoft.DDV.Core.engineResourcePath = "./dynamsoft-document-viewer/dist/engine";` before `Core.init()` â€” copy the installed `dynamsoft-document-viewer` package's `dist/engine` folder next to your app.
+- DCV/DBR bundle: `CoreModule.engineResourcePaths.rootDirectory = "/dynamsoft/";` — the property is `rootDirectory` (NOT `root`), and the value is the directory the SDK's `dist` assets are served from (the SDK appends `<package>@<version>/dist/` itself). Self-host those assets (copy the installed package's `dist` folder under that layout) — never point the engine at a third-party CDN at runtime.
+- DDV: `Dynamsoft.DDV.Core.engineResourcePath = "./dynamsoft-document-viewer/dist/engine";` before `Core.init()` — copy the installed `dynamsoft-document-viewer` package's `dist/engine` folder next to your app.
 - Verify the served path returns real files: a SPA fallback answering with `index.html` is the actual root cause of the `'<`' error above.
 
-Plain `<script>`-tag usage (no bundler) auto-detects the path and usually does not need this. Verified against `dynamsoft-capture-vision-bundle` v3.4.x. See `the `capture-vision-web` skill` and `the `document-viewer` skill`.
+Plain `<script>`-tag usage (no bundler) auto-detects the path and usually does not need this. Verified against `dynamsoft-capture-vision-bundle` v3.4.x. See the `capture-vision-web` and `document-viewer` skills.
 
 ## Known error: DWT `OnPostAllTransfers` event never fires (instance vs global registration)
 
@@ -79,10 +79,10 @@ Cause: DWT has two event registration APIs with different scopes:
 
 | API | Scope | Valid events |
 |---|---|---|
-| `Dynamsoft.DWT.RegisterEvent(name, cb)` | **Global** â€” fires for any WebTwain instance | `OnWebTwainReady` only |
-| `DWTObject.RegisterEvent(name, cb)` | **Instance** â€” fires only for that specific WebTwain instance | `OnPostAllTransfers`, `OnPostTransfer`, `OnPostLoad`, `OnGetFilePath`, etc. |
+| `Dynamsoft.DWT.RegisterEvent(name, cb)` | **Global** — fires for any WebTwain instance | `OnWebTwainReady` only |
+| `DWTObject.RegisterEvent(name, cb)` | **Instance** — fires only for that specific WebTwain instance | `OnPostAllTransfers`, `OnPostTransfer`, `OnPostLoad`, `OnGetFilePath`, etc. |
 
-Using the global API for instance events silently fails â€” the callback is never invoked.
+Using the global API for instance events silently fails — the callback is never invoked.
 
 Fix:
 - Always register transfer/buffer events on the `DWTObject` instance **after** it is obtained inside `OnWebTwainReady`:
