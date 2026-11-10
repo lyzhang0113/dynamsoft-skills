@@ -20,7 +20,7 @@ Or install through your agent's own marketplace:
 | Claude Code | `/plugin marketplace add Dynamsoft/dynamsoft-skills` then `/plugin install dynamsoft-sdk@dynamsoft-plugins` |
 | Cursor | `/add-plugin dynamsoft-sdk`, or the marketplace listing |
 | Codex CLI | `codex plugin marketplace add Dynamsoft/dynamsoft-skills` then `codex plugin add dynamsoft-sdk@dynamsoft-plugins` |
-| DeepSeek Harness | `npm i @dynamsoft/dsh-plugin`, or copy the skills (see `dsh/README.md`) |
+| DeepSeek Harness | `npm i dynamsoft-dsh-plugin`, or copy the skills (see `dsh/README.md`) |
 
 ## Skills
 
@@ -84,7 +84,7 @@ The skills target these versions (checked 2026-11-10):
 .codex-plugin/     Codex / OpenAI plugin manifest
 .mcp.json          the license MCP server entry
 skills/            one directory per skill
-dsh/               @dynamsoft/dsh-plugin bundle (DeepSeek Harness)
+dsh/               dynamsoft-dsh-plugin bundle (DeepSeek Harness)
 scripts/verify.mjs manifest, frontmatter and bundle checks
 ```
 

@@ -11,7 +11,7 @@
   },
   "plugins": [
     {
-      "name": "@dynamsoft/dsh-plugin",
+      "name": "dynamsoft-dsh-plugin",
       "title": "Dynamsoft SDK",
       "description": "Skills for barcode, MRZ, document capture, Web TWAIN and Document Viewer, and an MCP server that issues trial license keys.",
       "author": "Dynamsoft",

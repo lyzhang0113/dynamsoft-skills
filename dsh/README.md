@@ -1,4 +1,4 @@
-# @dynamsoft/dsh-plugin
+# dynamsoft-dsh-plugin
 
 A DeepSeek Harness bundle in two parts:
 
@@ -9,7 +9,7 @@ A DeepSeek Harness bundle in two parts:
 ## Install
 
 ```bash
-npm i @dynamsoft/dsh-plugin
+npm i dynamsoft-dsh-plugin
 ```
 
 Then add it to your profile's bundle list (`~/.dsh/profiles/<profile>/package.json`):
@@ -21,7 +21,7 @@ Then add it to your profile's bundle list (`~/.dsh/profiles/<profile>/package.js
       "bundles": [
         "@deepseek-ai/dsh-base",
         "@deepseek-ai/dsh-web-app",
-        "@dynamsoft/dsh-plugin"
+        "dynamsoft-dsh-plugin"
       ]
     }
   }
@@ -52,7 +52,7 @@ https://raw.githubusercontent.com/Dynamsoft/dynamsoft-skills/main/dsh/index.json
 ```
 
 The current entry installs from **Git, pinned to a commit**, so it works before the package is on
-npm. Once `@dynamsoft/dsh-plugin` is published, switch the version's `source` to
+npm. Once `dynamsoft-dsh-plugin` is published, switch the version's `source` to
 `{ "type": "npm" }` and drop the commit pin.
 
 **Maintaining it:** the `commit` field is a release pin. After any change under `dsh/`, update it to
@@ -126,14 +126,14 @@ In the harness, confirm both halves:
 | No `mcp__dynamsoft__*` tools | `npx` not on PATH, or Node < 22. Run `npx -y dynamsoft-license-mcp` once to see the error. |
 | Tools exist but calls time out | Raise `toolCallTimeoutMs`; the first call waits for a human sign-in. |
 | Skills missing from the catalog | Links not created, or `$DSH_HOME` points elsewhere. Run `npx dynamsoft-dsh-link` and check `~/.dsh/skills`. |
-| Old skill content | Re-run `npm i @dynamsoft/dsh-plugin`, then `npx dynamsoft-dsh-link --remove && npx dynamsoft-dsh-link`. |
+| Old skill content | Re-run `npm i dynamsoft-dsh-plugin`, then `npx dynamsoft-dsh-link --remove && npx dynamsoft-dsh-link`. |
 | Harness fails to start after adding the bundle | Remove the bundle from `dsh.profile.bundles`; the patch only adds rows, so a startup failure points at a missing dependency rather than a config value. |
 
 ## Uninstall
 
 ```bash
 npx dynamsoft-dsh-link --remove
-npm rm @dynamsoft/dsh-plugin
+npm rm dynamsoft-dsh-plugin
 ```
 
 Then drop it from `dsh.profile.bundles`.

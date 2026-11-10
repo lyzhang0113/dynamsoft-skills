@@ -1,4 +1,4 @@
-# @dynamsoft/dsh-plugin bundle patch layer.
+# dynamsoft-dsh-plugin bundle patch layer.
 #
 # Rows are applied after every bundle the profile already lists, so this file only
 # adds things: one MCP client entry for trial-license provisioning, and nothing else

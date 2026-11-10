@@ -21,7 +21,7 @@ The released version here must match `.claude-plugin/plugin.json`,
   `get_license_guide`, `describe_license`, `get_trial_page_url`. Every implementation skill
   documents the MCP flow, the edition rule and the manual fallback.
 - Plugin manifests for Claude Code, Cursor and Codex, plus a DeepSeek Harness bundle
-  (`@dynamsoft/dsh-plugin`, under `dsh/`) that adds the MCP client row and links the skills.
+  (`dynamsoft-dsh-plugin`, under `dsh/`) that adds the MCP client row and links the skills.
 - `scripts/verify.mjs`: manifest agreement, portable frontmatter, DSH patch and encoding checks.
 - `tests/sdk-smoke/`: one QR decode per language binding (Python, Node.js, Java, .NET), run on
   Linux, Windows and macOS in CI.

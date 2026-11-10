@@ -1,5 +1,5 @@
 {
-  "name": "@dynamsoft/dsh-plugin",
+  "name": "dynamsoft-dsh-plugin",
   "version": "1.0.0",
   "description": "DeepSeek Harness bundle: Dynamsoft SDK skills plus the trial-license MCP server.",
   "type": "module",
