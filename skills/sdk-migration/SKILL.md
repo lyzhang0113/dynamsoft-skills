@@ -89,6 +89,14 @@ but a `desktop` key will not license a browser runtime.
 
 ## Samples
 
+Base migrated code on the closest of these official samples:
+
 - Migration reference: `references/migration.md`
-- DBR JavaScript samples: https://github.com/Dynamsoft/barcode-reader-javascript-samples
-- Mobile samples: https://github.com/Dynamsoft/barcode-reader-mobile-samples
+- Web (JavaScript/TypeScript): https://github.com/Dynamsoft/barcode-reader-javascript-samples
+- Android / iOS: https://github.com/Dynamsoft/barcode-reader-mobile-samples
+- Python / server: https://github.com/Dynamsoft/barcode-reader-python-samples
+- Other platforms and frameworks: https://github.com/Dynamsoft
+
+Optional, when available: the full sample index lives in the `dynamsoft-sdk` skill
+(`references/samples.md`), also readable at
+https://github.com/Dynamsoft/dynamsoft-skills/blob/main/skills/dynamsoft-sdk/references/samples.md.

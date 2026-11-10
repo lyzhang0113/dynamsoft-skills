@@ -58,6 +58,6 @@ When answering a migration request, produce:
 
 1. Assumption line: source library + version, target platform, current usage pattern (engine / camera / UI).
 2. Concept mapping table for the user's specific usage (subset of the tables above).
-3. Migrated minimal working code using DCV core APIs, based on the closest sample in the `dynamsoft-sdk` skill's `references/samples.md`.
+3. Migrated minimal working code using DCV core APIs, based on the closest sample listed under "Samples" in this skill's `SKILL.md` (the `dynamsoft-sdk` skill's sample index is optional extra coverage).
 4. Behavior-parity checklist: formats enabled, result fields consumed, threading/lifecycle, camera permissions.
 5. Next-step pointers: template tuning via `barcode-template-optimizer`, 30-day trial license link, docs links.
