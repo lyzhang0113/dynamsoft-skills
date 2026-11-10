@@ -29,13 +29,8 @@
       "versions": [
         {
           "version": "1.0.0",
-          "publishTimestamp": 1794299615,
-          "source": {
-            "type": "git",
-            "url": "https://github.com/Dynamsoft/dynamsoft-skills",
-            "commit": "325abbd9f16afc1f59abe5b68663182aa3e8f690",
-            "path": "dsh"
-          },
+          "publishTimestamp": 1794301450,
+          "source": { "type": "npm" },
           "engines": { "dsh": ">=0.2.0" }
         }
       ]

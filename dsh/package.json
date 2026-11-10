@@ -1,9 +1,18 @@
 {
   "name": "dynamsoft-dsh-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "DeepSeek Harness bundle: Dynamsoft SDK skills plus the trial-license MCP server.",
   "type": "module",
   "license": "MIT",
+  "author": {
+    "name": "Dynamsoft",
+    "email": "support@dynamsoft.com",
+    "url": "https://www.dynamsoft.com/"
+  },
+  "homepage": "https://github.com/Dynamsoft/dynamsoft-skills#readme",
+  "bugs": {
+    "url": "https://github.com/Dynamsoft/dynamsoft-skills/issues"
+  },
   "engines": {
     "node": ">=22"
   },

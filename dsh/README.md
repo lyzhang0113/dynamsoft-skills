@@ -51,12 +51,12 @@ from the Discover tab or the `plugin_market` tool:
 https://raw.githubusercontent.com/Dynamsoft/dynamsoft-skills/main/dsh/index.json
 ```
 
-The current entry installs from **Git, pinned to a commit**, so it works before the package is on
-npm. Once `dynamsoft-dsh-plugin` is published, switch the version's `source` to
-`{ "type": "npm" }` and drop the commit pin.
+The entry installs `dynamsoft-dsh-plugin` from **npm**. If a package release is not on npm yet, an
+index entry can point at Git instead — `"source": { "type": "git", "url": "...", "commit": "<40-hex>",
+"path": "dsh" }` — which is how this index worked before the first publish.
 
-**Maintaining it:** the `commit` field is a release pin. After any change under `dsh/`, update it to
-the new commit and re-validate:
+**Maintaining it:** bump `version` and `publishTimestamp` when a new package version ships, then
+re-validate:
 
 ```bash
 npm exec --package=@deepseek-ai/dsh-plugin-market-index -- node -e '
