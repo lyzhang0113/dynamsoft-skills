@@ -1,0 +1,18 @@
+{
+  "name": "dynamsoft-plugins",
+  "owner": {
+    "name": "Dynamsoft",
+    "email": "support@dynamsoft.com"
+  },
+  "metadata": {
+    "description": "Official Dynamsoft marketplace: AI agent skills for integrating Dynamsoft SDKs, plus a trial-license MCP server.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "dynamsoft-sdk",
+      "source": ".",
+      "description": "Skills for Dynamsoft Barcode Reader, Capture Vision, MRZ, Web TWAIN and Document Viewer, with a license-key MCP server that issues trial keys."
+    }
+  ]
+}

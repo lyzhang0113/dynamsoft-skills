@@ -1,0 +1,13 @@
+﻿node_modules/
+dist/
+*.log
+.DS_Store
+dsh/skills/
+tests/sdk-smoke/node/node_modules/
+tests/sdk-smoke/dotnet/bin/
+tests/sdk-smoke/dotnet/obj/
+tests/sdk-smoke/java/classes/
+tests/sdk-smoke/java/lib/
+fixture.png
+out*.txt
+tests/sdk-smoke/**/package-lock.json

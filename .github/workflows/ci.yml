@@ -1,0 +1,132 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Verify (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Manifests, frontmatter, DSH bundle
+        run: node scripts/verify.mjs
+
+  sdk-smoke:
+    name: SDK smoke (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    env:
+      DYNAMSOFT_LICENSE_KEY: ${{ secrets.DYNAMSOFT_LICENSE_KEY }}
+      DBR_JAR_VERSION: "11.6.5000"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Detect license secret
+        shell: bash
+        run: |
+          if [ -z "${DYNAMSOFT_LICENSE_KEY}" ]; then
+            echo "LICENSE_SET=0" >> "$GITHUB_ENV"
+            echo "::warning::DYNAMSOFT_LICENSE_KEY is not set - SDK smoke tests will be skipped"
+          else
+            echo "LICENSE_SET=1" >> "$GITHUB_ENV"
+          fi
+
+      - name: Install Python packages
+        shell: bash
+        run: python -m pip install --quiet dynamsoft-barcode-reader-bundle qrcode pillow
+
+      - name: Generate QR fixture
+        shell: bash
+        run: python tests/sdk-smoke/fixtures/make_fixture.py fixture.png
+
+      - name: Python barcode decode
+        if: env.LICENSE_SET == '1'
+        shell: bash
+        run: |
+          python tests/sdk-smoke/python/scan.py fixture.png | tee out.txt
+          grep -qE "^items: [1-9]" out.txt
+
+      - name: Node.js dependencies
+        if: env.LICENSE_SET == '1'
+        shell: bash
+        working-directory: tests/sdk-smoke/node
+        run: npm install --no-audit --no-fund
+
+      - name: Node.js barcode decode
+        if: env.LICENSE_SET == '1'
+        shell: bash
+        run: |
+          node tests/sdk-smoke/node/scan.mjs fixture.png | tee out-node.txt
+          grep -qE "^items: [1-9]" out-node.txt
+
+      - name: Java dependency
+        if: env.LICENSE_SET == '1'
+        shell: bash
+        run: |
+          mkdir -p tests/sdk-smoke/java/lib
+          curl -sSL -o "tests/sdk-smoke/java/lib/dbr-${DBR_JAR_VERSION}.jar" \
+            "https://download2.dynamsoft.com/maven/dbr/jar/com/dynamsoft/dbr/${DBR_JAR_VERSION}/dbr-${DBR_JAR_VERSION}.jar"
+
+      - name: Java barcode decode
+        if: env.LICENSE_SET == '1'
+        shell: bash
+        run: |
+          cd tests/sdk-smoke/java
+          javac -cp "lib/dbr-${DBR_JAR_VERSION}.jar" -d classes Scan.java
+          java -cp "lib/dbr-${DBR_JAR_VERSION}.jar${SEP}classes" Scan ../../../../fixture.png | tee ../../../../out-java.txt
+          grep -qE "^items: [1-9]" ../../../../out-java.txt
+        env:
+          SEP: ${{ runner.os == 'Windows' && ';' || ':' }}
+
+      - name: .NET barcode decode
+        if: env.LICENSE_SET == '1'
+        shell: bash
+        run: |
+          dotnet run --project tests/sdk-smoke/dotnet -c Release -- fixture.png | tee out-dotnet.txt
+          grep -qE "^items: [1-9]" out-dotnet.txt
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdk-smoke-logs-${{ matrix.os }}
+          path: |
+            out.txt
+            out-node.txt
+            out-java.txt
+            out-dotnet.txt
+          if-no-files-found: ignore

@@ -1,0 +1,26 @@
+# @dynamsoft/dsh-plugin bundle patch layer.
+#
+# Rows are applied after every bundle the profile already lists, so this file only
+# adds things: one MCP client entry for trial-license provisioning, and nothing else
+# that could disturb an existing profile.
+#
+# Skills are NOT mounted from here on purpose: the skill-filesystem provider resolves
+# a bundled directory relative to the harness process working directory, which is not
+# a stable place to point at from a package. The package's postinstall links them into
+# $DSH_HOME/skills instead (rank 400), which is the documented user skill root.
+# Run `npx dynamsoft-dsh-link` to re-link, or `--remove` to unlink.
+
+- id: dynamsoft-mcp-license
+  name: '@deepseek-ai/dsh-mcp-client'
+  config:
+    # Tools appear as mcp__dynamsoft__<tool>
+    serverName: dynamsoft
+    transport: stdio
+    command: npx
+    args:
+      - '-y'
+      - 'dynamsoft-license-mcp'
+    # The default 60s is shorter than an interactive Google sign-in.
+    toolCallTimeoutMs: 180000
+    # A missing server should not stop the harness from starting.
+    failOnStartupError: false

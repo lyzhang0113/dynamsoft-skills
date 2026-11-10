@@ -1,0 +1,33 @@
+{
+  "name": "dynamsoft-sdk",
+  "version": "1.0.0",
+  "displayName": "Dynamsoft SDK",
+  "description": "AI agent skills for integrating Dynamsoft SDKs: barcode scanning, MRZ, document capture, Web TWAIN scanning and document viewing, plus trial-license provisioning.",
+  "author": {
+    "name": "Dynamsoft",
+    "email": "support@dynamsoft.com"
+  },
+  "license": "MIT",
+  "mcpServers": {
+    "dynamsoft-license": {
+      "command": "npx",
+      "args": ["-y", "dynamsoft-license-mcp"]
+    }
+  },
+  "keywords": [
+    "dynamsoft",
+    "barcode",
+    "qr-code",
+    "mrz",
+    "document-scanner",
+    "document-viewer",
+    "web-twain",
+    "capture-vision",
+    "javascript",
+    "python",
+    "android",
+    "ios",
+    "flutter"
+  ],
+  "logo": "assets/logo.svg"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "dynamsoft-sdk-smoke-node",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "dynamsoft-capture-vision-for-node": "3.6.4003",
+    "dynamsoft-capture-vision-for-node-model": "3.6.4000"
+  }
+}

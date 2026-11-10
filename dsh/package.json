@@ -1,0 +1,35 @@
+{
+  "name": "@dynamsoft/dsh-plugin",
+  "version": "1.0.0",
+  "description": "DeepSeek Harness bundle: Dynamsoft SDK skills plus the trial-license MCP server.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dynamsoft/dynamsoft-skills.git",
+    "directory": "dsh"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "bin": {
+    "dynamsoft-dsh-link": "./scripts/link-skills.mjs"
+  },
+  "files": [
+    "cordis.patch.yml",
+    "skills",
+    "scripts",
+    "README.md"
+  ],
+  "scripts": {
+    "prepare-skills": "node scripts/prepare-skills.mjs",
+    "prepack": "node scripts/prepare-skills.mjs",
+    "postinstall": "node scripts/link-skills.mjs --quiet",
+    "verify": "node scripts/verify.mjs"
+  }
+}

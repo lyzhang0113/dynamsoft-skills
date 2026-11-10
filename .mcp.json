@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "dynamsoft-license": {
+      "command": "npx",
+      "args": ["-y", "dynamsoft-license-mcp"]
+    }
+  }
+}

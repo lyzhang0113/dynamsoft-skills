@@ -1,0 +1,52 @@
+{
+  "name": "dynamsoft-sdk",
+  "version": "1.0.0",
+  "description": "AI agent skills for integrating Dynamsoft SDKs: barcode scanning, MRZ, document capture, Web TWAIN scanning and document viewing.",
+  "author": {
+    "name": "Dynamsoft",
+    "email": "support@dynamsoft.com",
+    "url": "https://www.dynamsoft.com/"
+  },
+  "homepage": "https://www.dynamsoft.com/",
+  "repository": "https://github.com/Dynamsoft/dynamsoft-skills",
+  "license": "MIT",
+  "keywords": [
+    "dynamsoft",
+    "barcode",
+    "qr-code",
+    "mrz",
+    "document-scanner",
+    "document-viewer",
+    "web-twain",
+    "capture-vision"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Dynamsoft SDK",
+    "shortDescription": "Barcode, MRZ and document SDKs",
+    "longDescription": "Skills that write correct, current integration code for the Dynamsoft SDKs: barcode and QR scanning on web, mobile and server, MRZ and passport parsing, document boundary detection and normalization, physical scanner acquisition with Dynamic Web TWAIN, and in-browser document viewing with Document Viewer. Covers JavaScript/TypeScript, Python, .NET, Java, C++, Node.js, Android, iOS, Flutter and React Native, plus migration from other scanning libraries and template tuning for hard barcode images. Each skill prefers the Capture Vision core API over the ready-to-use wrappers, initializes licensing from an environment variable, and points at the matching official sample.",
+    "developerName": "Dynamsoft",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Write barcode and QR scanning integration code",
+      "Parse MRZ from passports and ID cards",
+      "Capture and normalize document images",
+      "Control physical scanners from the browser",
+      "Render and annotate documents in a web app",
+      "Migrate from ZXing, ML Kit or Scandit",
+      "Tune barcode reading templates"
+    ],
+    "websiteURL": "https://www.dynamsoft.com/",
+    "supportURL": "https://www.dynamsoft.com/company/contact/",
+    "privacyPolicyURL": "https://www.dynamsoft.com/privacy/",
+    "termsOfServiceURL": "https://www.dynamsoft.com/company/terms/",
+    "defaultPrompt": [
+      "Add a barcode scanner to my web app",
+      "Read MRZ from a passport image in Python",
+      "Move this app from ZXing to Dynamsoft"
+    ],
+    "brandColor": "#C8102E",
+    "composerIcon": "./assets/icon.svg",
+    "logo": "./assets/logo.svg"
+  }
+}

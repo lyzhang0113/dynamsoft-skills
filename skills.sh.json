@@ -1,0 +1,36 @@
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "notGrouped": "bottom",
+  "groupings": [
+    {
+      "title": "Start here",
+      "description": "Not sure which skill you need? Install this one and your agent picks the right product, platform and license for you.",
+      "skills": ["dynamsoft-sdk"]
+    },
+    {
+      "title": "Web",
+      "description": "Browser apps: barcode, MRZ, document capture, and a document viewer.",
+      "skills": ["capture-vision-web", "document-viewer"]
+    },
+    {
+      "title": "Mobile",
+      "description": "Android, iOS, Flutter, React Native and MAUI.",
+      "skills": ["capture-vision-mobile"]
+    },
+    {
+      "title": "Desktop and server",
+      "description": "Python, .NET, Java, C++, Node.js and Electron.",
+      "skills": ["capture-vision-desktop"]
+    },
+    {
+      "title": "Scanners",
+      "description": "Drive TWAIN, SANE, WIA, ICA and eSCL hardware, through the JavaScript SDK or the REST service.",
+      "skills": ["web-twain"]
+    },
+    {
+      "title": "Migration and tuning",
+      "description": "Replace another scanning library, upgrade a Dynamsoft SDK, or squeeze more decodes out of a template.",
+      "skills": ["sdk-migration", "barcode-template-optimizer"]
+    }
+  ]
+}

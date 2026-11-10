@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Dynamsoft">
+  <rect width="512" height="512" rx="96" fill="#C8102E"/>
+  <g fill="#fff" transform="translate(136 152)">
+    <rect x="0" y="0" width="26" height="208"/>
+    <rect x="46" y="0" width="13" height="208"/>
+    <rect x="79" y="0" width="32" height="208"/>
+    <rect x="131" y="0" width="13" height="208"/>
+    <rect x="164" y="0" width="20" height="208"/>
+    <rect x="204" y="0" width="32" height="208"/>
+  </g>
+</svg>
