@@ -23,16 +23,16 @@ Read `references/migration.md` for the full mapping tables and the per-library n
 
 ## The three change patterns
 
-1. **Decode API** â€” most third-party libraries take an image and return a list of strings. The
+1. **Decode API** — most third-party libraries take an image and return a list of strings. The
    Dynamsoft equivalent returns typed result items with text, format, and corner coordinates. Map the
    call once, then the rest of the app keeps working.
-2. **Camera ownership** â€” third-party libraries often own the camera. With Capture Vision you create
+2. **Camera ownership** — third-party libraries often own the camera. With Capture Vision you create
    `CameraView` and `CameraEnhancer` yourself, which is why migration is mostly a wiring change in the
    view layer, not in the business logic.
-3. **Licensing** â€” every Dynamsoft SDK needs a key at startup. Add it once, from configuration; see
+3. **Licensing** — every Dynamsoft SDK needs a key at startup. Add it once, from configuration; see
    the license section below.
 
-## DBR v9 â†’ v11 renames
+## DBR v9 → v11 renames
 
 | v9 | v11 |
 | --- | --- |
@@ -41,15 +41,15 @@ Read `references/migration.md` for the full mapping tables and the per-library n
 | `reader.getRuntimeSettings()` / `updateRuntimeSettings()` | template JSON via `initSettings` or a template file |
 | `results[i].BarcodeText` | `BarcodeResultItem.get_text()` / `.text` |
 
-Do not invent bridge names for anything older than v9 â€” point at the official sample for that
+Do not invent bridge names for anything older than v9 — point at the official sample for that
 version instead of guessing.
 
-## RTU â†’ core API
+## RTU → core API
 
 If the project uses `BarcodeScanner.createInstance()` or `BarcodeReader.createInstance()`:
 
 1. Replace the instance with `CaptureVisionRouter.createInstance()`.
-2. Create `CameraView` and `CameraEnhancer` explicitly â€” the wrapper was hiding them.
+2. Create `CameraView` and `CameraEnhancer` explicitly — the wrapper was hiding them.
 3. Register `addResultReceiver({ onDecodedBarcodesReceived })`.
 4. Start with a template string (`"ReadBarcodes_Default"`).
 5. Delete the wrapper's UI hooks; the core API does not render a preset UI.
@@ -60,7 +60,7 @@ The decode behaviour is preserved; what changes is who owns the pipeline.
 
 Call `get_trial_license` with the product the migrated code targets (`dbr` or `dcv`, plus `mrz`,
 `ddv`, `dwt` if those are part of the app) and the edition matching the platform. If it returns
-`status: "login_required"`, the browser window is waiting â€” have the user sign in and call again.
+`status: "login_required"`, the browser window is waiting — have the user sign in and call again.
 Keep the key in configuration and show only `licenseKeyMasked`.
 
 A migration also changes **which** licence is used: a Scandit account key becomes a Dynamsoft key,
@@ -79,13 +79,13 @@ but a `desktop` key will not license a browser runtime.
 
 ## Pitfalls
 
-- **Half-migrations** â€” leaving the old library installed alongside the new one doubles camera
+- **Half-migrations** — leaving the old library installed alongside the new one doubles camera
   contention and confuses bundle size analysis.
-- **Symbology drift** â€” ZXing and ML Kit enable a different default set. If only some codes stop
+- **Symbology drift** — ZXing and ML Kit enable a different default set. If only some codes stop
   decoding, set the formats explicitly in the template rather than assuming a regression.
-- **Permissions** â€” the old library's manifest/plist entries usually stay behind; remove them, and
+- **Permissions** — the old library's manifest/plist entries usually stay behind; remove them, and
   confirm the new camera permission is declared.
-- **Licence timing** â€” initialising the SDK after the first capture call produces confusing failures.
+- **Licence timing** — initialising the SDK after the first capture call produces confusing failures.
 
 ## Samples
 
