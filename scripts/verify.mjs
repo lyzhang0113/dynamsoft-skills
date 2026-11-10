@@ -128,6 +128,24 @@ const timeout = Number(/toolCallTimeoutMs:\s*(\d+)/.exec(patch)?.[1] || 0);
 check(timeout > 60000, `dsh toolCallTimeoutMs (${timeout}) must exceed the 60s default`);
 notes.push(`dsh bundle: ${dshPackage.name}@${dshPackage.version}`);
 
+// --- encoding ---------------------------------------------------------------
+// A UTF-8 BOM breaks YAML frontmatter and JSON.parse, and it has slipped in twice.
+const bomFiles = [];
+const walk = (dir) => {
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name === "node_modules" || entry.name === ".git" || entry.name === "dsh") continue;
+    const full = join(dir, entry.name);
+    if (entry.isDirectory()) { walk(full); continue; }
+    if (!/\.(md|json|ya?ml)$/.test(entry.name)) continue;
+    const head = readFileSync(full).subarray(0, 3);
+    if (head.length === 3 && head[0] === 0xef && head[1] === 0xbb && head[2] === 0xbf) {
+      bomFiles.push(full.slice(root.length + 1));
+    }
+  }
+};
+walk(root);
+check(bomFiles.length === 0, `files start with a UTF-8 BOM: ${bomFiles.join(", ")}`);
+
 // --- summary ----------------------------------------------------------------
 console.log(`skills: ${skillDirs.length}`);
 for (const meta of skillMeta) console.log(`  ${meta.name.padEnd(28)} ${String(meta.description.length).padStart(4)} chars`);
