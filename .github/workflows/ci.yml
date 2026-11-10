@@ -125,7 +125,8 @@ jobs:
       - name: .NET not supported on macOS
         if: runner.os == 'macOS'
         shell: bash
-        run: echo "::notice::Skipping the .NET decode: the NuGet bundle has no macOS natives."
+        run: |
+          echo "::notice::Skipping the .NET decode: the NuGet bundle has no macOS natives."
 
       - name: Upload logs
         if: always()
