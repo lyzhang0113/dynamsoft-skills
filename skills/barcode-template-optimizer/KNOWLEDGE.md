@@ -8,13 +8,13 @@
 
 ## Template JSON Architecture (DCV v3.x)
 
-A DBR template is a JSON file conforming to the **Dynamsoft Capture Vision (DCV) parameter structure**. It is not a flat key-value config â€” it's a hierarchical pipeline definition with named, cross-referenced objects.
+A DBR template is a JSON file conforming to the **Dynamsoft Capture Vision (DCV) parameter structure**. It is not a flat key-value config — it's a hierarchical pipeline definition with named, cross-referenced objects.
 
 ### Top-Level Sections
 
 ```
 {
-  "CaptureVisionTemplates": [...]      // Entry points â€” define the capture pipeline
+  "CaptureVisionTemplates": [...]      // Entry points — define the capture pipeline
   "TargetROIDefOptions": [...]          // Region-of-interest definitions
   "BarcodeReaderTaskSettingOptions": [...]  // Barcode-specific task parameters
   "ImageParameterOptions": [...]        // Image preprocessing parameters
@@ -27,64 +27,64 @@ A DBR template is a JSON file conforming to the **Dynamsoft Capture Vision (DCV)
 
 ```
 CaptureVisionTemplate
-  â”œâ”€ Name: "ReadBarcodes_Default"
-  â”œâ”€ ImageROIProcessingNameArray: ["roi-read-barcodes"]
-  â”œâ”€ Timeout: 10000
-  â””â”€ MaxParallelTasks: 4
+  ├─ Name: "ReadBarcodes_Default"
+  ├─ ImageROIProcessingNameArray: ["roi-read-barcodes"]
+  ├─ Timeout: 10000
+  └─ MaxParallelTasks: 4
 
 TargetROIDefOptions
-  â”œâ”€ Name: "roi-read-barcodes"
-  â””â”€ TaskSettingNameArray: ["task-read-barcodes"]
+  ├─ Name: "roi-read-barcodes"
+  └─ TaskSettingNameArray: ["task-read-barcodes"]
 
 BarcodeReaderTaskSettingOptions
-  â”œâ”€ Name: "task-read-barcodes"
-  â”œâ”€ BarcodeFormatIds: ["BF_DEFAULT"]
-  â”œâ”€ BarcodeFormatSpecificationNameArray: ["bfs1", "bfs2"]
-  â””â”€ SectionArray:
-       â”œâ”€ ST_REGION_PREDETECTION
-       â”‚    â””â”€ SST_PREDETECT_REGIONS â†’ RegionPredetectionModes
-       â”œâ”€ ST_BARCODE_LOCALIZATION
-       â”‚    â”œâ”€ SST_LOCALIZE_CANDIDATE_BARCODES â†’ LocalizationModes
-       â”‚    â””â”€ SST_LOCALIZE_BARCODES
-       â””â”€ ST_BARCODE_DECODING
-            â”œâ”€ SST_RESIST_DEFORMATION â†’ DeformationResistingModes
-            â”œâ”€ SST_COMPLEMENT_BARCODE â†’ BarcodeComplementModes
-            â”œâ”€ SST_SCALE_BARCODE_IMAGE â†’ BarcodeScaleModes
-            â””â”€ SST_DECODE_BARCODES â†’ DeblurModes
+  ├─ Name: "task-read-barcodes"
+  ├─ BarcodeFormatIds: ["BF_DEFAULT"]
+  ├─ BarcodeFormatSpecificationNameArray: ["bfs1", "bfs2"]
+  └─ SectionArray:
+       ├─ ST_REGION_PREDETECTION
+       │    └─ SST_PREDETECT_REGIONS → RegionPredetectionModes
+       ├─ ST_BARCODE_LOCALIZATION
+       │    ├─ SST_LOCALIZE_CANDIDATE_BARCODES → LocalizationModes
+       │    └─ SST_LOCALIZE_BARCODES
+       └─ ST_BARCODE_DECODING
+            ├─ SST_RESIST_DEFORMATION → DeformationResistingModes
+            ├─ SST_COMPLEMENT_BARCODE → BarcodeComplementModes
+            ├─ SST_SCALE_BARCODE_IMAGE → BarcodeScaleModes
+            └─ SST_DECODE_BARCODES → DeblurModes
 
 ImageParameterOptions
-  â”œâ”€ Name: "ip-read-barcodes"
-  â””â”€ ApplicableStages:
-       â”œâ”€ SST_SCALE_IMAGE â†’ ImageScaleSetting
-       â”œâ”€ SST_CONVERT_TO_GRAYSCALE â†’ ColourConversionModes
-       â”œâ”€ SST_TRANSFORM_GRAYSCALE â†’ GrayscaleTransformationModes
-       â”œâ”€ SST_ENHANCE_GRAYSCALE â†’ GrayscaleEnhancementModes
-       â”œâ”€ SST_BINARIZE_IMAGE â†’ BinarizationModes
-       â”œâ”€ SST_DETECT_TEXTURE â†’ TextureDetectionModes
-       â”œâ”€ SST_REMOVE_TEXTURE_FROM_GRAYSCALE â†’ TextureRemovalStrength
-       â”œâ”€ SST_BINARIZE_TEXTURE_REMOVED_GRAYSCALE â†’ BinarizationModes (BM_AUTO default)
-       â”œâ”€ SST_FIND_CONTOURS
-       â”œâ”€ SST_DETECT_SHORTLINES â†’ ShortlineDetectionMode
-       â”œâ”€ SST_ASSEMBLE_LINES â†’ LineAssemblyMode
-       â”œâ”€ SST_DETECT_TEXT_ZONES â†’ TextDetectionMode
-       â””â”€ SST_REMOVE_TEXT_ZONES_FROM_BINARY â†’ IfEraseTextZone
+  ├─ Name: "ip-read-barcodes"
+  └─ ApplicableStages:
+       ├─ SST_SCALE_IMAGE → ImageScaleSetting
+       ├─ SST_CONVERT_TO_GRAYSCALE → ColourConversionModes
+       ├─ SST_TRANSFORM_GRAYSCALE → GrayscaleTransformationModes
+       ├─ SST_ENHANCE_GRAYSCALE → GrayscaleEnhancementModes
+       ├─ SST_BINARIZE_IMAGE → BinarizationModes
+       ├─ SST_DETECT_TEXTURE → TextureDetectionModes
+       ├─ SST_REMOVE_TEXTURE_FROM_GRAYSCALE → TextureRemovalStrength
+       ├─ SST_BINARIZE_TEXTURE_REMOVED_GRAYSCALE → BinarizationModes (BM_AUTO default)
+       ├─ SST_FIND_CONTOURS
+       ├─ SST_DETECT_SHORTLINES → ShortlineDetectionMode
+       ├─ SST_ASSEMBLE_LINES → LineAssemblyMode
+       ├─ SST_DETECT_TEXT_ZONES → TextDetectionMode
+       └─ SST_REMOVE_TEXT_ZONES_FROM_BINARY → IfEraseTextZone
 ```
 
 > **Note on ST_BARCODE_DECODING stage order**: The official docs list SST_COMPLEMENT_BARCODE
 > before SST_RESIST_DEFORMATION, but the SDK's own `OutputSettings()` dump (v3.4.1000) outputs
 > SST_RESIST_DEFORMATION first. The order shown above matches the actual SDK dump. This
-> discrepancy may be a documentation issue â€” the SDK dump is treated as authoritative.
+> discrepancy may be a documentation issue — the SDK dump is treated as authoritative.
 
 ### Key Insight: Section/Stage Architecture
 
 In DCV v3.x templates, parameters are organized into **Sections** and **Stages** within `BarcodeReaderTaskSettingOptions.SectionArray`. Each stage corresponds to a processing step and has its own mode array. This is different from older DBR v9.x templates where parameters were flat.
 
 When modifying a template, you must place parameters in the correct stage:
-- `LocalizationModes` â†’ `ST_BARCODE_LOCALIZATION` / `SST_LOCALIZE_CANDIDATE_BARCODES`
-- `DeformationResistingModes` â†’ `ST_BARCODE_DECODING` / `SST_RESIST_DEFORMATION`
-- `BarcodeComplementModes` â†’ `ST_BARCODE_DECODING` / `SST_COMPLEMENT_BARCODE`
-- `BarcodeScaleModes` â†’ `ST_BARCODE_DECODING` / `SST_SCALE_BARCODE_IMAGE`
-- `DeblurModes` â†’ `ST_BARCODE_DECODING` / `SST_DECODE_BARCODES`
+- `LocalizationModes` → `ST_BARCODE_LOCALIZATION` / `SST_LOCALIZE_CANDIDATE_BARCODES`
+- `DeformationResistingModes` → `ST_BARCODE_DECODING` / `SST_RESIST_DEFORMATION`
+- `BarcodeComplementModes` → `ST_BARCODE_DECODING` / `SST_COMPLEMENT_BARCODE`
+- `BarcodeScaleModes` → `ST_BARCODE_DECODING` / `SST_SCALE_BARCODE_IMAGE`
+- `DeblurModes` → `ST_BARCODE_DECODING` / `SST_DECODE_BARCODES`
 
 Image-level parameters go in `ImageParameterOptions.ApplicableStages`.
 
@@ -96,7 +96,7 @@ Each section in BarcodeReaderTaskSettingOptions references an `ImageParameterNam
 
 ### GrayscaleTransformationModes
 
-**Where**: `ImageParameterOptions` â†’ `SST_TRANSFORM_GRAYSCALE`
+**Where**: `ImageParameterOptions` → `SST_TRANSFORM_GRAYSCALE`
 
 | Mode | Description |
 |------|-------------|
@@ -110,25 +110,25 @@ Each section in BarcodeReaderTaskSettingOptions references an `ImageParameterNam
 - Barcode reading: `[GTM_ORIGINAL]`
 - Label recognizing: `[GTM_ORIGINAL, GTM_INVERTED]`
 
-**Best practice**: Always include both `GTM_ORIGINAL` and `GTM_INVERTED` (or use `GTM_AUTO`). The SDK tries each in order and uses whichever works. Cost is minimal (a simple pixel inversion) but the gain can be enormous â€” any inverted barcode will be completely invisible without `GTM_INVERTED`.
+**Best practice**: Always include both `GTM_ORIGINAL` and `GTM_INVERTED` (or use `GTM_AUTO`). The SDK tries each in order and uses whichever works. Cost is minimal (a simple pixel inversion) but the gain can be enormous — any inverted barcode will be completely invisible without `GTM_INVERTED`.
 
 **Observed impact**: In our testing, adding GTM_INVERTED contributed to a +7.4% decode rate improvement (part of a combined change).
 
 ### GrayscaleEnhancementModes
 
-**Where**: `ImageParameterOptions` â†’ `SST_ENHANCE_GRAYSCALE`
+**Where**: `ImageParameterOptions` → `SST_ENHANCE_GRAYSCALE`
 
 | Mode | Description | Sub-parameters |
 |------|-------------|----------------|
-| `GEM_GENERAL` | No preprocessing â€” passes through un-preprocessed grayscale (default) | â€” |
-| `GEM_GRAY_EQUALIZE` | Histogram equalization â€” improves contrast | `Sensitivity` (1-9, default 5) |
-| `GEM_GRAY_SMOOTH` | Gaussian smoothing â€” reduces noise | `SmoothBlockSizeX/Y` (3-1000, default 3) |
-| `GEM_SHARPEN_SMOOTH` | Sharpen then smooth â€” edges + noise reduction | `SharpenBlockSizeX/Y` (3-1000, default 3), `SmoothBlockSizeX/Y` (3-1000, default 3) |
-| `GEM_SKIP` | Skip grayscale enhancement entirely | â€” |
+| `GEM_GENERAL` | No preprocessing — passes through un-preprocessed grayscale (default) | — |
+| `GEM_GRAY_EQUALIZE` | Histogram equalization — improves contrast | `Sensitivity` (1-9, default 5) |
+| `GEM_GRAY_SMOOTH` | Gaussian smoothing — reduces noise | `SmoothBlockSizeX/Y` (3-1000, default 3) |
+| `GEM_SHARPEN_SMOOTH` | Sharpen then smooth — edges + noise reduction | `SharpenBlockSizeX/Y` (3-1000, default 3), `SmoothBlockSizeX/Y` (3-1000, default 3) |
+| `GEM_SKIP` | Skip grayscale enhancement entirely | — |
 
 > **Correction from official docs**: `Sensitivity` only applies to `GEM_GRAY_EQUALIZE` (controls
 > likelihood of equalization activation). `SharpenBlockSizeX/Y` only applies to `GEM_SHARPEN_SMOOTH`,
-> not to `GEM_GRAY_SMOOTH`. `GEM_GENERAL` has no numeric sub-parameters â€” it's a pass-through.
+> not to `GEM_GRAY_SMOOTH`. `GEM_GENERAL` has no numeric sub-parameters — it's a pass-through.
 
 **Best practice**: For noisy images (camera captures in poor lighting), use all four active modes. The SDK tries each and picks the best result. `GEM_GRAY_EQUALIZE` is particularly effective for low-contrast images. `GEM_GRAY_SMOOTH` helps with color noise/speckle.
 
@@ -136,7 +136,7 @@ Each section in BarcodeReaderTaskSettingOptions references an `ImageParameterNam
 
 ### DeblurModes
 
-**Where**: `BarcodeReaderTaskSettingOptions` â†’ `ST_BARCODE_DECODING` / `SST_DECODE_BARCODES`
+**Where**: `BarcodeReaderTaskSettingOptions` → `ST_BARCODE_DECODING` / `SST_DECODE_BARCODES`
 
 | Mode | Description | Speed Impact |
 |------|-------------|-------------|
@@ -146,11 +146,11 @@ Each section in BarcodeReaderTaskSettingOptions references an `ImageParameterNam
 | `DM_GRAY_EQUALIZATION` | Equalize then binarize | Medium |
 | `DM_SMOOTHING` | Smooth then binarize | Medium |
 | `DM_SHARPENING` | Sharpen then binarize | Medium |
-| `DM_SHARPENING_SMOOTHING` | Sharpen â†’ smooth â†’ binarize | Medium |
+| `DM_SHARPENING_SMOOTHING` | Sharpen → smooth → binarize | Medium |
 | `DM_MORPHING` | Morphological operations then binarize | Medium |
 | `DM_DEEP_ANALYSIS` | ML-based deep analysis | Slow |
 | `DM_NEURAL_NETWORK` | CNN-based deblurring with specialized models | Slow |
-| `DM_SKIP` | Skip deblurring | â€” |
+| `DM_SKIP` | Skip deblurring | — |
 
 **Sub-parameters**:
 
@@ -179,11 +179,11 @@ Each section in BarcodeReaderTaskSettingOptions references an `ImageParameterNam
 
 ### LocalizationModes
 
-**Where**: `BarcodeReaderTaskSettingOptions` â†’ `ST_BARCODE_LOCALIZATION` / `SST_LOCALIZE_CANDIDATE_BARCODES`
+**Where**: `BarcodeReaderTaskSettingOptions` → `ST_BARCODE_LOCALIZATION` / `SST_LOCALIZE_CANDIDATE_BARCODES`
 
 | Mode | Description | Best For |
 |------|-------------|----------|
-| `LM_CONNECTED_BLOCKS` | Connected component analysis | General purpose â€” **recommended at highest priority** |
+| `LM_CONNECTED_BLOCKS` | Connected component analysis | General purpose — **recommended at highest priority** |
 | `LM_SCAN_DIRECTLY` | Scan lines in multiple directions | 1D barcodes, interactive scenarios |
 | `LM_STATISTICS` | Statistical analysis of pixel distribution | QR Code, DataMatrix |
 | `LM_LINES` | Detect lines then find barcodes | 1D barcodes, PDF417 |
@@ -192,7 +192,7 @@ Each section in BarcodeReaderTaskSettingOptions references an `ImageParameterNam
 | `LM_CENTRE` | Scan from image center outward | Cropped barcode images |
 | `LM_NEURAL_NETWORK` | Neural network-based detection | Complex scenes |
 | `LM_ONED_FAST_SCAN` | Very fast scan for 1D barcodes | Speed-critical 1D scenarios |
-| `LM_SKIP` | Skip localization | â€” |
+| `LM_SKIP` | Skip localization | — |
 
 **Sub-parameters**:
 
@@ -215,7 +215,7 @@ Each section in BarcodeReaderTaskSettingOptions references an `ImageParameterNam
 
 ### BarcodeScaleModes
 
-**Where**: `BarcodeReaderTaskSettingOptions` â†’ `ST_BARCODE_DECODING` / `SST_SCALE_BARCODE_IMAGE`
+**Where**: `BarcodeReaderTaskSettingOptions` → `ST_BARCODE_DECODING` / `SST_SCALE_BARCODE_IMAGE`
 
 > **Note**: This parameter replaces the deprecated `ScaleUpModes` from earlier SDK versions.
 > BarcodeScaleModes supports both **scale-up AND scale-down**.
@@ -238,15 +238,15 @@ Each section in BarcodeReaderTaskSettingOptions references an `ImageParameterNam
 | `AcuteAngleWithXThreshold` | int | [-1, 90] | -1 (auto) | Min angle with X-axis for scaling |
 
 **Scaling logic** (from official docs):
-- When `ModuleSizeThreshold < TargetModuleSize` â†’ **enlarge** by power-of-2 factor
-- When `ModuleSizeThreshold > TargetModuleSize` â†’ **shrink** by power-of-2 factor
-- When equal â†’ skip scaling
+- When `ModuleSizeThreshold < TargetModuleSize` → **enlarge** by power-of-2 factor
+- When `ModuleSizeThreshold > TargetModuleSize` → **shrink** by power-of-2 factor
+- When equal → skip scaling
 
 **Best practice**: Add `BSM_LINEAR_INTERPOLATION` before `BSM_AUTO` for small barcodes. Set `ModuleSizeThreshold=4` and `TargetModuleSize=6` as starting values.
 
 ### DeformationResistingModes
 
-**Where**: `BarcodeReaderTaskSettingOptions` â†’ `ST_BARCODE_DECODING` / `SST_RESIST_DEFORMATION`
+**Where**: `BarcodeReaderTaskSettingOptions` → `ST_BARCODE_DECODING` / `SST_RESIST_DEFORMATION`
 
 | Mode | Description |
 |------|-------------|
@@ -262,8 +262,8 @@ Each section in BarcodeReaderTaskSettingOptions references an `ImageParameterNam
 | Sub-parameter | Type | Range | Default | Applies To |
 |---------------|------|-------|---------|------------|
 | `Level` | int | [1, 9] | 5 | `DRM_GENERAL` |
-| `GrayscaleEnhancementMode` | Object | Inline GEM mode object | â€” | `DRM_BROAD_WARP`, `DRM_LOCAL_REFERENCE`, `DRM_DEWRINKLE` |
-| `BinarizationMode` | Object | Inline BM mode object | â€” | `DRM_BROAD_WARP`, `DRM_LOCAL_REFERENCE`, `DRM_DEWRINKLE` |
+| `GrayscaleEnhancementMode` | Object | Inline GEM mode object | — | `DRM_BROAD_WARP`, `DRM_LOCAL_REFERENCE`, `DRM_DEWRINKLE` |
+| `BinarizationMode` | Object | Inline BM mode object | — | `DRM_BROAD_WARP`, `DRM_LOCAL_REFERENCE`, `DRM_DEWRINKLE` |
 
 > **Note**: `DRM_BROAD_WARP`, `DRM_LOCAL_REFERENCE`, and `DRM_DEWRINKLE` accept **inline**
 > `GrayscaleEnhancementMode` and `BinarizationMode` objects (not by index reference, but as
@@ -273,7 +273,7 @@ Each section in BarcodeReaderTaskSettingOptions references an `ImageParameterNam
 
 ### BarcodeComplementModes
 
-**Where**: `BarcodeReaderTaskSettingOptions` â†’ `ST_BARCODE_DECODING` / `SST_COMPLEMENT_BARCODE`
+**Where**: `BarcodeReaderTaskSettingOptions` → `ST_BARCODE_DECODING` / `SST_COMPLEMENT_BARCODE`
 
 | Mode | Description |
 |------|-------------|
@@ -287,7 +287,7 @@ Each section in BarcodeReaderTaskSettingOptions references an `ImageParameterNam
 
 ### BinarizationModes
 
-**Where**: `ImageParameterOptions` â†’ `SST_BINARIZE_IMAGE` (also `SST_BINARIZE_TEXTURE_REMOVED_GRAYSCALE`)
+**Where**: `ImageParameterOptions` → `SST_BINARIZE_IMAGE` (also `SST_BINARIZE_TEXTURE_REMOVED_GRAYSCALE`)
 
 | Mode | Description |
 |------|-------------|
@@ -324,7 +324,7 @@ Each section in BarcodeReaderTaskSettingOptions references an `ImageParameterNam
 | `ExpectedBarcodesCount` | `BarcodeReaderTaskSettingOptions` | 0 = find all. Higher values may speed up processing. |
 | `MirrorMode` | `BarcodeFormatSpecificationOptions` | MM_NORMAL, MM_MIRROR, MM_BOTH |
 | `DPMCodeReadingModes` | `BarcodeReaderTaskSettingOptions` | DPMCRM_SKIP (default), DPMCRM_GENERAL. For tiny single-code DataMatrix crops, test `DPMCRM_GENERAL` before adding rescue ROIs. |
-| `TextureDetectionModes` | `ImageParameterOptions` â†’ `SST_DETECT_TEXTURE` | TDM_GENERAL_WIDTH_CONCENTRATION |
+| `TextureDetectionModes` | `ImageParameterOptions` → `SST_DETECT_TEXTURE` | TDM_GENERAL_WIDTH_CONCENTRATION |
 
 ### DPM On Tiny DataMatrix Crops
 
@@ -348,15 +348,15 @@ Do not reserve `DPMCRM_GENERAL` only for obviously etched metal marks. In practi
 
 These interactions are documented in the official Dynamsoft docs:
 
-1. **BinarizationModes.GrayscaleEnhancementModesIndex** â€” Links a specific binarization config to a specific GrayscaleEnhancementModes result by array index.
+1. **BinarizationModes.GrayscaleEnhancementModesIndex** — Links a specific binarization config to a specific GrayscaleEnhancementModes result by array index.
 
-2. **DeformationResistingModes** (DRM_BROAD_WARP / DRM_LOCAL_REFERENCE / DRM_DEWRINKLE) â€” Embed their own inline `GrayscaleEnhancementMode` and `BinarizationMode` objects for re-processing the deformed barcode image.
+2. **DeformationResistingModes** (DRM_BROAD_WARP / DRM_LOCAL_REFERENCE / DRM_DEWRINKLE) — Embed their own inline `GrayscaleEnhancementMode` and `BinarizationMode` objects for re-processing the deformed barcode image.
 
-3. **DeblurModes with DM_BASED_ON_LOC_BIN** â€” Reuses the binary image from the localization stage, tying decoding to localization results.
+3. **DeblurModes with DM_BASED_ON_LOC_BIN** — Reuses the binary image from the localization stage, tying decoding to localization results.
 
-4. **GrayscaleTransformationModes with GTM_INVERTED** â€” Affects all downstream stages (enhancement, binarization, localization, decoding).
+4. **GrayscaleTransformationModes with GTM_INVERTED** — Affects all downstream stages (enhancement, binarization, localization, decoding).
 
-5. **BarcodeScaleModes** â€” Replaces the deprecated `ScaleUpModes` and supports both scale-up AND scale-down via `ModuleSizeThreshold` vs `TargetModuleSize` comparison.
+5. **BarcodeScaleModes** — Replaces the deprecated `ScaleUpModes` and supports both scale-up AND scale-down via `ModuleSizeThreshold` vs `TargetModuleSize` comparison.
 
 ---
 
@@ -407,10 +407,10 @@ For single-image failures, use the bundled helper tools in this order. If your r
 
 Interpret the evidence conservatively:
 
-- **Raw image succeeds with a candidate template** â†’ keep tuning in the template only.
-- **Only a preprocessed variant succeeds** â†’ recommend preprocessing plus template tuning; do not claim template-only success.
-- **No raw or basic variant succeeds** â†’ template-only tuning is likely exhausted for the current pixels.
-- **A reference template mainly differs in deformation handling or separate decode image parameters** â†’ prioritize those before adding more `DeblurModes`.
+- **Raw image succeeds with a candidate template** → keep tuning in the template only.
+- **Only a preprocessed variant succeeds** → recommend preprocessing plus template tuning; do not claim template-only success.
+- **No raw or basic variant succeeds** → template-only tuning is likely exhausted for the current pixels.
+- **A reference template mainly differs in deformation handling or separate decode image parameters** → prioritize those before adding more `DeblurModes`.
 
 For hard QR-like scenes with tiny tilted codes, low contrast, and multiple candidate code blocks, switch from template tuning to ROI-and-preprocessing recovery before giving up entirely:
 
@@ -433,11 +433,11 @@ Use that tool when the image still visibly contains QR markers but `validate_dbr
 
 ### Decision Rules Before Editing
 
-- **Few symbols, known format** â†’ set `ExpectedBarcodesCount` to the known count, restrict `BarcodeFormatIds`, and prefer a focused template.
-- **Barcode likely exists but is not found** â†’ change `LocalizationModes` before decode modes.
-- **Barcode is found on some variants but decode is unstable** â†’ leave localization unchanged, inspect deformation handling and decode image parameters before adding more `DeblurModes`.
-- **Suspected quiet-zone or crop issue** â†’ lower `MinQuietZoneWidth`, test padded variants, and use `MirrorMode = MM_BOTH` only when orientation is uncertain.
-- **No raw image or basic variant decodes** â†’ stop calling it a template problem without qualification; recommend preprocessing, crop refinement, re-capture, or ground-truth verification.
+- **Few symbols, known format** → set `ExpectedBarcodesCount` to the known count, restrict `BarcodeFormatIds`, and prefer a focused template.
+- **Barcode likely exists but is not found** → change `LocalizationModes` before decode modes.
+- **Barcode is found on some variants but decode is unstable** → leave localization unchanged, inspect deformation handling and decode image parameters before adding more `DeblurModes`.
+- **Suspected quiet-zone or crop issue** → lower `MinQuietZoneWidth`, test padded variants, and use `MirrorMode = MM_BOTH` only when orientation is uncertain.
+- **No raw image or basic variant decodes** → stop calling it a template problem without qualification; recommend preprocessing, crop refinement, re-capture, or ground-truth verification.
 
 ### Minimal Change Contract
 
@@ -464,7 +464,7 @@ Reject proposals that change localization, decoding, and acceptance rules all at
 
 ### Proven Optimization Order (most impact first)
 
-**Step 0 â€” Ask the customer first.** If the customer knows the barcode format (e.g. CODE_128) and text pattern (e.g. serial number format), start with a focused template:
+**Step 0 — Ask the customer first.** If the customer knows the barcode format (e.g. CODE_128) and text pattern (e.g. serial number format), start with a focused template:
 - Set `BarcodeFormatIds` to the single known format
 - Set `BarcodeTextRegExPattern` in `BarcodeFormatSpecificationOptions` to match the expected text
 - Set `MinResultConfidence: 0` (the regex acts as quality control)
@@ -475,31 +475,31 @@ Reject proposals that change localization, decoding, and acceptance rules all at
 
 Based on empirical testing with 202 noisy DataMatrix images:
 
-1. **GrayscaleTransformationModes** â€” Add `GTM_INVERTED` (handles inverted barcodes, nearly free)
-2. **GrayscaleEnhancementModes** â€” Add `GEM_GRAY_EQUALIZE`, `GEM_SHARPEN_SMOOTH`, `GEM_GRAY_SMOOTH`
-3. **DeblurModes** â€” Explicitly set all modes (controls order and includes modes not in format-specific defaults)
-4. **DeformationResistingModes** â€” Enable `DRM_GENERAL`
-5. **BarcodeComplementModes** â€” Enable `BCM_GENERAL`
-6. **BarcodeScaleModes** â€” Add `BSM_LINEAR_INTERPOLATION` for small barcodes
-7. **LocalizationModes** â€” Add `LM_STATISTICS_MARKS`, `LM_CENTRE`, `LM_NEURAL_NETWORK`
-8. **MinResultConfidence** â€” Lower from 30 to 10 (accept borderline decodes)
-9. **Timeout** â€” Increase to 30000ms
+1. **GrayscaleTransformationModes** — Add `GTM_INVERTED` (handles inverted barcodes, nearly free)
+2. **GrayscaleEnhancementModes** — Add `GEM_GRAY_EQUALIZE`, `GEM_SHARPEN_SMOOTH`, `GEM_GRAY_SMOOTH`
+3. **DeblurModes** — Explicitly set all modes (controls order and includes modes not in format-specific defaults)
+4. **DeformationResistingModes** — Enable `DRM_GENERAL`
+5. **BarcodeComplementModes** — Enable `BCM_GENERAL`
+6. **BarcodeScaleModes** — Add `BSM_LINEAR_INTERPOLATION` for small barcodes
+7. **LocalizationModes** — Add `LM_STATISTICS_MARKS`, `LM_CENTRE`, `LM_NEURAL_NETWORK`
+8. **MinResultConfidence** — Lower from 30 to 10 (accept borderline decodes)
+9. **Timeout** — Increase to 30000ms
 10. Fine-tune sub-parameters (BlockSizeX/Y, ModuleSizeThreshold, etc.)
 
 ### Results From Real-World Testing
 
-**Test run 1 â€” Noisy DataMatrix images (202 images):**
+**Test run 1 — Noisy DataMatrix images (202 images):**
 
 | Iteration | Changes | Rate | Delta |
 |-----------|---------|------|-------|
-| Baseline | Default template | 43.07% | â€” |
+| Baseline | Default template | 43.07% | — |
 | 1 | GTM_INVERTED, GEM_GRAY_EQUALIZE, GEM_SHARPEN_SMOOTH, DRM_GENERAL, BCM_GENERAL, Timeout 30s | 50.50% | +7.43% |
 | 2 | + LM_STATISTICS_MARKS, LM_CENTRE, BSM_LINEAR_INTERPOLATION, MinResultConfidence 10 | 52.48% | +1.98% |
 | 3 | + Explicit DeblurModes (9 modes), GEM_GRAY_SMOOTH | 56.44% | +3.96% |
 
-Total improvement: **43.07% â†’ 56.44% (+13.37 percentage points, +27 images)**
+Total improvement: **43.07% → 56.44% (+13.37 percentage points, +27 images)**
 
-**Test run 2 â€” GS1-128 pharmacy/logistics labels, 10 camera images (2026-03-30):**
+**Test run 2 — GS1-128 pharmacy/logistics labels, 10 camera images (2026-03-30):**
 
 Images: Chinese pharmaceutical product labels photographed by mobile phone; each label has 3 barcodes:
 1. Large GS1-128 `(00)` shipping container serial (wide, easier to read)
@@ -508,53 +508,53 @@ Images: Chinese pharmaceutical product labels photographed by mobile phone; each
 
 | Iteration | Changes | Images Decoded | Total Barcodes | Delta |
 |-----------|---------|----------------|----------------|-------|
-| Baseline | Default template | 8/10 (80%) | 10 | â€” |
+| Baseline | Default template | 8/10 (80%) | 10 | — |
 | 1 | All LocalizationModes + GTM_INVERTED + all GEM modes + all DeblurModes + DRM_GENERAL + BCM_GENERAL + Timeout 30s + MinResultConfidence 10 + TextDetection Sensitivity 1 | 10/10 (100%) | 15 | +20% images, +5 barcodes |
-| 2 | + IfEraseTextZone=0 + BSM_LINEAR_INTERPOLATION(4â†’8) | 10/10 (100%) | 17 | +2 barcodes, +3 confidence |
-| 3 | + BM_THRESHOLD, LM_STATISTICS_MARKS, DM_THRESHOLD_BINARIZATIONÃ—2 | 10/10 (same) | 17 | no change |
-| 4 | + BSM_LINEAR_INTERPOLATION(2â†’4), GEM_GRAY_EQUALIZE Sensitivity 9, DM_NEURAL_NETWORK Code128Decoder | 10/10 (same) | 17 | slightly worse confidence |
+| 2 | + IfEraseTextZone=0 + BSM_LINEAR_INTERPOLATION(4→8) | 10/10 (100%) | 17 | +2 barcodes, +3 confidence |
+| 3 | + BM_THRESHOLD, LM_STATISTICS_MARKS, DM_THRESHOLD_BINARIZATION×2 | 10/10 (same) | 17 | no change |
+| 4 | + BSM_LINEAR_INTERPOLATION(2→4), GEM_GRAY_EQUALIZE Sensitivity 9, DM_NEURAL_NETWORK Code128Decoder | 10/10 (same) | 17 | slightly worse confidence |
 | 5 | **ExpectedBarcodesCount=2** (minimal change on top of iter_4) | 10/10 (100%) | **20** | **+3 barcodes**, avg_conf 33.1, avg_time 320ms |
 
 **Key findings for this label type:**
-- **IfEraseTextZone=1 was the main culprit for 90Â°-rotated image failures.** The aggressive text zone removal erased barcode regions in rotated images. Setting `IfEraseTextZone=0` and reducing `TextDetectionMode.Sensitivity` from 3 to 1 was critical.
-- **Adding full LocalizationModes array** (LM_CONNECTED_BLOCKS, LM_SCAN_DIRECTLY, LM_STATISTICS, LM_LINES, LM_NEURAL_NETWORK, LM_CENTRE) fixed images rotated 90Â°.
+- **IfEraseTextZone=1 was the main culprit for 90°-rotated image failures.** The aggressive text zone removal erased barcode regions in rotated images. Setting `IfEraseTextZone=0` and reducing `TextDetectionMode.Sensitivity` from 3 to 1 was critical.
+- **Adding full LocalizationModes array** (LM_CONNECTED_BLOCKS, LM_SCAN_DIRECTLY, LM_STATISTICS, LM_LINES, LM_NEURAL_NETWORK, LM_CENTRE) fixed images rotated 90°.
 - **BSM_LINEAR_INTERPOLATION** with `ModuleSizeThreshold=4, TargetModuleSize=8` helped decode the shorter `(11)(10)` barcode in additional images.
-- **ExpectedBarcodesCount=2 was the key fix for the final 3 hard cases.** Setting this to match the known label layout (always 2 barcodes) pushed the engine to keep searching until both are found. This single change on top of iter_4 raised total barcodes from 17â†’20 with minimal speed cost (~320ms/image). The 3 previously-missed barcodes decoded at confidence 15, 23, 24 â€” above the MinResultConfidence=10 threshold, so the issue was localization effort, not confidence filtering.
+- **ExpectedBarcodesCount=2 was the key fix for the final 3 hard cases.** Setting this to match the known label layout (always 2 barcodes) pushed the engine to keep searching until both are found. This single change on top of iter_4 raised total barcodes from 17→20 with minimal speed cost (~320ms/image). The 3 previously-missed barcodes decoded at confidence 15, 23, 24 — above the MinResultConfidence=10 threshold, so the issue was localization effort, not confidence filtering.
 - **MinResultConfidence=5 alone**: No improvement. The missed barcodes were not being found at all (localization failure), not rejected for low confidence.
 - **Explicit BinarizationModes (multiple block sizes)**: No improvement on this image type.
 - **DRM_BROAD_WARP, DRM_LOCAL_REFERENCE, DRM_DEWRINKLE, DRM_GENERAL Level 9**: No improvement beyond ExpectedBarcodesCount=2 and significantly slower (1234ms vs 320ms).
 - **DM_THRESHOLD_BINARIZATION twice, LM_STATISTICS_MARKS, BM_THRESHOLD**: No improvement on this image type.
 - **Higher GEM_GRAY_EQUALIZE Sensitivity (9 vs 5)**: No improvement on these images.
 
-**Test run 3 â€” Warehouse inventory photos, 12 images of stacked phone boxes (2026-04-16):**
+**Test run 3 — Warehouse inventory photos, 12 images of stacked phone boxes (2026-04-16):**
 
-Images: Mobile phone boxes (Samsung, iPhone, Oppo, Honor) stacked on warehouse shelves, photographed by mobile phone. Each image contains 15-30+ boxes with Code 128 barcodes on white labels. Low resolution (721Ã—1280), high JPEG compression. Mix of dark boxes (Samsung, Honor) and white boxes (iPhone). Primary format: CODE_128, with some DATAMATRIX and EAN_13.
+Images: Mobile phone boxes (Samsung, iPhone, Oppo, Honor) stacked on warehouse shelves, photographed by mobile phone. Each image contains 15-30+ boxes with Code 128 barcodes on white labels. Low resolution (721×1280), high JPEG compression. Mix of dark boxes (Samsung, Honor) and white boxes (iPhone). Primary format: CODE_128, with some DATAMATRIX and EAN_13.
 
 **Critical finding: SDK version matters enormously.** The Python SDK `dynamsoft-capture-vision-bundle` v3.0.6000 could not decode 4 of 12 images at all, and `LM_NEURAL_NETWORK` / `DM_NEURAL_NETWORK` modes caused the SDK to silently return 0 results. Upgrading to v3.4.2000 solved all failures with the default template alone.
 
 | Iteration | SDK | Changes | Images | Barcodes | Delta |
 |-----------|-----|---------|--------|----------|-------|
-| Baseline (v3.0) | 3.0.6000 | Default template | 8/12 (67%) | 58 | â€” |
+| Baseline (v3.0) | 3.0.6000 | Default template | 8/12 (67%) | 58 | — |
 | Iter 1 | 3.0.6000 | ReadRateFirst pipeline, ExpectedBarcodes=50, IfEraseTextZone=0, Timeout 60s | 8/12 | 72 | +14 barcodes |
 | Iter 2 | 3.0.6000 | + All GEM, DRM, explicit DeblurModes (9), LM_STATS_MARKS, BSM, MinConf=10 | 8/12 | 94 | +22 barcodes |
-| Iter 4 | 3.0.6000 | + Multiple BinarizationModes, aggressive BSM (2â†’8) | 9/12 | 103 | +1 image, +9 barcodes |
+| Iter 4 | 3.0.6000 | + Multiple BinarizationModes, aggressive BSM (2→8) | 9/12 | 103 | +1 image, +9 barcodes |
 | **Baseline (v3.4)** | **3.4.2000** | **Default template (no customization)** | **12/12 (100%)** | **118** | **+4 images, +15 barcodes** |
 | Iter 6 | 3.4.2000 | Full optimization (all modes incl. NN) | 12/12 | 174 | +56 barcodes |
 | **Iter 7 (best)** | **3.4.2000** | **+ Timeout 120s, aggressive BSM, multiple BM** | **12/12** | **198** | **+24 barcodes** |
 | Iter 8 | 3.4.2000 | Format restriction (CODE_128+DM+EAN13+QR+EAN8) | 12/12 | 187 | -11 (reverted) |
 
-Total improvement: **8/12 (67%) â†’ 12/12 (100%), 58 â†’ 198 barcodes (+241%)**
+Total improvement: **8/12 (67%) → 12/12 (100%), 58 → 198 barcodes (+241%)**
 
 **Key findings for this image type:**
-- **SDK upgrade was the single most impactful change.** v3.0â†’v3.4 alone went from 8/12 to 12/12 and 58â†’118 barcodes with the default template.
-- **LM_NEURAL_NETWORK and DM_NEURAL_NETWORK break SDK v3.0.6000** â€” the SDK silently returns 0 results for all images (0ms processing time). These modes work correctly in v3.4.2000.
-- **BCM_GENERAL (BarcodeComplementModes) was harmful** for this image type on v3.0 â€” reduced from 8/12 to 7/12 images and 58 to 21 barcodes.
-- **Format restriction (BarcodeFormatIds) was slightly harmful** â€” reduced from 198 to 187 barcodes, likely because some borderline detections were format-ambiguous.
+- **SDK upgrade was the single most impactful change.** v3.0→v3.4 alone went from 8/12 to 12/12 and 58→118 barcodes with the default template.
+- **LM_NEURAL_NETWORK and DM_NEURAL_NETWORK break SDK v3.0.6000** — the SDK silently returns 0 results for all images (0ms processing time). These modes work correctly in v3.4.2000.
+- **BCM_GENERAL (BarcodeComplementModes) was harmful** for this image type on v3.0 — reduced from 8/12 to 7/12 images and 58 to 21 barcodes.
+- **Format restriction (BarcodeFormatIds) was slightly harmful** — reduced from 198 to 187 barcodes, likely because some borderline detections were format-ambiguous.
 - **ReadRateFirst pipeline + ExpectedBarcodesCount=50** was effective on v3.0, finding +14 more barcodes on already-decoded images.
 - **Multiple BinarizationModes (different BlockSizeX/Y + BM_THRESHOLD)** helped decode 1 more image on v3.0 and +24 more barcodes on v3.4.
-- **Aggressive BSM upscaling (ModuleSizeThreshold=2, TargetModuleSize=8)** helped with the small barcodes at 721Ã—1280 resolution.
+- **Aggressive BSM upscaling (ModuleSizeThreshold=2, TargetModuleSize=8)** helped with the small barcodes at 721×1280 resolution.
 
-**Test run 3b â€” Engineer's optimized template for same warehouse images (2026-04-17/21):**
+**Test run 3b — Engineer's optimized template for same warehouse images (2026-04-17/21):**
 
 Same 12 warehouse images as Test run 3. A Dynamsoft engineer created a purpose-built template (U22212-0417.json) targeting only the customer's specific barcodes. Comparison against our iter_8 best (v3.4.2000):
 
@@ -567,27 +567,27 @@ Same 12 warehouse images as Test run 3. A Dynamsoft engineer created a purpose-b
 
 **Critical techniques from the engineer's template:**
 
-1. **`BarcodeTextRegExPattern`** â€” The single most impactful technique for known-format use cases. Setting `"BarcodeTextRegExPattern": "^3[0-9]{8}N$"` in `BarcodeFormatSpecificationOptions`:
+1. **`BarcodeTextRegExPattern`** — The single most impactful technique for known-format use cases. Setting `"BarcodeTextRegExPattern": "^3[0-9]{8}N$"` in `BarcodeFormatSpecificationOptions`:
    - Eliminates false decodes at engine level (the garbled `30{01N81-N` becomes a retry instead of a final result)
    - Effectively raises quality without sacrificing decode rate
    - Allows `MinResultConfidence: 0` since the regex itself acts as quality control
    - **Use whenever the customer knows the barcode text format** (serial numbers, part codes, etc.)
 
-2. **Focused `BarcodeFormatIds`** â€” Restricting to `BF_CODE_128` only (vs 5 formats in iter_8) yielded a 20x speed improvement. The iter_8 finding that format restriction was "slightly harmful" (198â†’187) was because it still searched broadly. When combined with regex filtering, single-format is strictly better.
+2. **Focused `BarcodeFormatIds`** — Restricting to `BF_CODE_128` only (vs 5 formats in iter_8) yielded a 20x speed improvement. The iter_8 finding that format restriction was "slightly harmful" (198→187) was because it still searched broadly. When combined with regex filtering, single-format is strictly better.
 
-3. **Minimal mode arrays beat kitchen-sink** â€” The engineer used only:
+3. **Minimal mode arrays beat kitchen-sink** — The engineer used only:
    - 2 LocalizationModes (LM_CONNECTED_BLOCKS + LM_LINES) vs 7
    - 3 DeblurModes (DM_THRESHOLD_BINARIZATION + DM_DIRECT_BINARIZATION + DM_NEURAL_NETWORK) vs 11
    - 3 GrayscaleEnhancementModes (GEM_GENERAL + GEM_GRAY_SMOOTH + GEM_SHARPEN_SMOOTH) vs 4
    - This proves that for a known image type, fewer well-chosen modes outperform exhaustive mode lists.
 
-4. **BinarizationModes with specific BlockSize** â€” `BM_LOCAL_BLOCK` with `BlockSizeX: 9, BlockSizeY: 9, ThresholdCompensation: 10, EnableFillBinaryVacancy: 0`. This is a tuned binarization (vs default 0/auto), useful for consistent label sizes.
+4. **BinarizationModes with specific BlockSize** — `BM_LOCAL_BLOCK` with `BlockSizeX: 9, BlockSizeY: 9, ThresholdCompensation: 10, EnableFillBinaryVacancy: 0`. This is a tuned binarization (vs default 0/auto), useful for consistent label sizes.
 
-5. **`GlobalParameter.IntraOpNumThreads: 4`** â€” Explicit thread count for intra-operation parallelism.
+5. **`GlobalParameter.IntraOpNumThreads: 4`** — Explicit thread count for intra-operation parallelism.
 
-6. **`IfEraseTextZone: 1`** â€” The engineer enabled text zone erasure (we found this harmful in Test run 2's rotated images, but it's fine for consistently-oriented warehouse labels where text near barcodes causes false localizations).
+6. **`IfEraseTextZone: 1`** — The engineer enabled text zone erasure (we found this harmful in Test run 2's rotated images, but it's fine for consistently-oriented warehouse labels where text near barcodes causes false localizations).
 
-7. **Template schema Version 5.1** â€” The engineer used the v5.1 template schema which specifies all image processing stages explicitly in `ImageParameterOptions.ApplicableStages`, including SST_INPUT_COLOR_IMAGE, SST_SCALE_IMAGE, SST_CONVERT_TO_GRAYSCALE, SST_TRANSFORM_GRAYSCALE, SST_ENHANCE_GRAYSCALE, SST_BINARIZE_IMAGE, SST_DETECT_TEXTURE, SST_REMOVE_TEXTURE_FROM_GRAYSCALE, SST_BINARIZE_TEXTURE_REMOVED_GRAYSCALE, SST_FIND_CONTOURS, SST_DETECT_SHORTLINES, SST_ASSEMBLE_LINES, SST_DETECT_TEXT_ZONES, SST_REMOVE_TEXT_ZONES_FROM_BINARY. This gives complete control over the entire image processing pipeline.
+7. **Template schema Version 5.1** — The engineer used the v5.1 template schema which specifies all image processing stages explicitly in `ImageParameterOptions.ApplicableStages`, including SST_INPUT_COLOR_IMAGE, SST_SCALE_IMAGE, SST_CONVERT_TO_GRAYSCALE, SST_TRANSFORM_GRAYSCALE, SST_ENHANCE_GRAYSCALE, SST_BINARIZE_IMAGE, SST_DETECT_TEXTURE, SST_REMOVE_TEXTURE_FROM_GRAYSCALE, SST_BINARIZE_TEXTURE_REMOVED_GRAYSCALE, SST_FIND_CONTOURS, SST_DETECT_SHORTLINES, SST_ASSEMBLE_LINES, SST_DETECT_TEXT_ZONES, SST_REMOVE_TEXT_ZONES_FROM_BINARY. This gives complete control over the entire image processing pipeline.
 
 **Updated optimization strategy: When the customer knows what barcode format and text pattern they need, start with a focused template (single format + regex) rather than a kitchen-sink approach. Reserve the kitchen-sink approach for exploratory/unknown cases.**
 
@@ -631,7 +631,7 @@ Observed evidence on the verified sample page image:
 | Barcode partially cut off | Incomplete data | BCM_GENERAL |
 | Dense texture behind barcode | False positive localization | TDM_GENERAL_WIDTH_CONCENTRATION |
 | Barcode region near dense text (label with many characters) | TextZoneRemoval erasing barcode area | Set IfEraseTextZone=0, lower TextDetectionMode Sensitivity to 1 |
-| Image rotated 90Â° (phone held sideways) | Default LocalizationModes + text zone removal fail on rotated content | Add full LocalizationModes array, set IfEraseTextZone=0 |
+| Image rotated 90° (phone held sideways) | Default LocalizationModes + text zone removal fail on rotated content | Add full LocalizationModes array, set IfEraseTextZone=0 |
 | Etched/stamped on metal | DPM marking | DPMCRM_GENERAL, LM_STATISTICS_MARKS |
 | Blurry 1D barcodes | Motion blur, out of focus | DM_THRESHOLD_BINARIZATION (twice in array for 2nd round), DM_NEURAL_NETWORK |
 
@@ -672,15 +672,15 @@ This knowledge base should grow over time. To contribute:
 ### Verification Status
 
 Items verified against official docs (2026-02-18):
-- [x] GrayscaleTransformationModes â€” modes, sub-params, defaults
-- [x] GrayscaleEnhancementModes â€” modes, sub-params, applicability
-- [x] DeblurModes â€” modes, sub-params, null behavior (format-specific defaults)
-- [x] LocalizationModes â€” modes, sub-params, ConfidenceThreshold applicability
-- [x] BarcodeScaleModes â€” modes (BSM_NEAREST_NEIGHBOUR_INTERPOLATION removed), scale-down support
-- [x] BinarizationModes â€” modes, sub-params, GrayscaleEnhancementModesIndex interaction
-- [x] DeformationResistingModes â€” modes (added DRM_BROAD_WARP, DRM_LOCAL_REFERENCE, DRM_DEWRINKLE, DRM_AUTO)
-- [x] BarcodeComplementModes â€” modes (BCM_AUTO noted as not supported yet)
-- [x] Template JSON architecture â€” section/stage hierarchy, cross-references
+- [x] GrayscaleTransformationModes — modes, sub-params, defaults
+- [x] GrayscaleEnhancementModes — modes, sub-params, applicability
+- [x] DeblurModes — modes, sub-params, null behavior (format-specific defaults)
+- [x] LocalizationModes — modes, sub-params, ConfidenceThreshold applicability
+- [x] BarcodeScaleModes — modes (BSM_NEAREST_NEIGHBOUR_INTERPOLATION removed), scale-down support
+- [x] BinarizationModes — modes, sub-params, GrayscaleEnhancementModesIndex interaction
+- [x] DeformationResistingModes — modes (added DRM_BROAD_WARP, DRM_LOCAL_REFERENCE, DRM_DEWRINKLE, DRM_AUTO)
+- [x] BarcodeComplementModes — modes (BCM_AUTO noted as not supported yet)
+- [x] Template JSON architecture — section/stage hierarchy, cross-references
 
 ### Remaining Items for Dynamsoft Verification
 
@@ -695,7 +695,7 @@ Items verified against official docs (2026-02-18):
 
 ---
 
-## Report Generation â€” Embedding Images
+## Report Generation — Embedding Images
 
 When the report HTML will be opened via `file://` (the common case), images **must** be embedded as base64 data URIs. Chromium blocks all `file://` resource loading from JavaScript-inserted DOM nodes, producing "Unsafe attempt to load URL" errors.
 
@@ -736,17 +736,17 @@ The Python harness (`resources/harness_py/main.py`) is the canonical validator f
 
 ### Practical Constraints
 
-- **PDF support** â€” PDF files are skipped with a warning because the Python SDK does not expose a PDF decoder.
-- **`avg_time_ms`** â€” includes Python call overhead, so use it for relative comparisons within the same Python session rather than absolute benchmarking.
-- **`--dump-default-template`** â€” uses `output_settings_to_file` / `output_settings_to_string`; the content is equivalent to the SDK preset dump even if field ordering differs.
-- **Performance** â€” expect moderate interpreter overhead; optimize for decode quality first, not raw timing.
+- **PDF support** — PDF files are skipped with a warning because the Python SDK does not expose a PDF decoder.
+- **`avg_time_ms`** — includes Python call overhead, so use it for relative comparisons within the same Python session rather than absolute benchmarking.
+- **`--dump-default-template`** — uses `output_settings_to_file` / `output_settings_to_string`; the content is equivalent to the SDK preset dump even if field ordering differs.
+- **Performance** — expect moderate interpreter overhead; optimize for decode quality first, not raw timing.
 
 ### SDK Version Compatibility
 
-The Python harness targets `dynamsoft-capture-vision-bundle` (the all-in-one pip package). Two functions in `main.py` contain all SDK-specific calls â€” if the API changes between versions, only those need updating:
+The Python harness targets `dynamsoft-capture-vision-bundle` (the all-in-one pip package). Two functions in `main.py` contain all SDK-specific calls — if the API changes between versions, only those need updating:
 
-- **`extract_barcodes(captured_result)`** â€” extracts barcode items from a `CapturedResult`
-- **`dump_default_template(router, output_path)`** â€” tries `output_settings_to_file` then `output_settings_to_string`
+- **`extract_barcodes(captured_result)`** — extracts barcode items from a `CapturedResult`
+- **`dump_default_template(router, output_path)`** — tries `output_settings_to_file` then `output_settings_to_string`
 
 ### Optimization Results Comparability
 
