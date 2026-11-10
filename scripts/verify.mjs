@@ -159,6 +159,46 @@ const walk = (dir) => {
 walk(root);
 check(bomFiles.length === 0, `files start with a UTF-8 BOM: ${bomFiles.join(", ")}`);
 
+// --- dsh market index -------------------------------------------------------
+// Structural checks mirroring format 1; the authoritative validator is
+// @deepseek-ai/dsh-plugin-market-index (parseMarketIndex), run when the index changes.
+const indexPath = join(root, "dsh", "index.json");
+if (existsSync(indexPath)) {
+  const index = JSON.parse(readFileSync(indexPath, "utf8"));
+  check(index.format === 1, "dsh/index.json must declare format 1");
+  check(typeof index.title === "string" || index.title?.en, "dsh/index.json needs a title (or an object containing en)");
+  check(index.metadata && typeof index.metadata === "object", "dsh/index.json needs a metadata object");
+  const categories = new Set(Object.keys(index.metadata?.categories ?? {}));
+  check(Array.isArray(index.plugins) && index.plugins.length > 0, "dsh/index.json needs at least one plugin");
+
+  for (const plugin of index.plugins ?? []) {
+    const label = plugin.name ?? "<unnamed>";
+    check(typeof plugin.name === "string" && plugin.name.includes("-"), `${label}: name must be an npm package name`);
+    check(typeof plugin.author === "string", `${label}: author is required`);
+    check(typeof plugin.homepage === "string" && plugin.homepage.startsWith("https://"), `${label}: homepage must be https`);
+    check(typeof plugin.repository?.url === "string", `${label}: repository.url is required`);
+    if (plugin.metadata?.category) {
+      check(categories.has(plugin.metadata.category), `${label}: category "${plugin.metadata.category}" is not declared in metadata.categories`);
+    }
+    check(Array.isArray(plugin.versions) && plugin.versions.length > 0, `${label}: needs at least one version`);
+    const semvers = (plugin.versions ?? []).map((version) => version.version);
+    for (const version of plugin.versions ?? []) {
+      check(/^\d+\.\d+\.\d+/.test(version.version), `${label}: "${version.version}" is not a semver`);
+      check(Number.isInteger(version.publishTimestamp), `${label}@${version.version}: publishTimestamp must be Unix seconds`);
+      const source = version.source ?? {};
+      if (source.type === "git") {
+        check(source.url?.startsWith("https://"), `${label}@${version.version}: git source needs an https url`);
+        check(/^[0-9a-f]{40}$/.test(source.commit ?? ""), `${label}@${version.version}: git source needs a 40-hex commit`);
+      } else {
+        check(source.type === "npm", `${label}@${version.version}: source.type must be npm or git`);
+      }
+    }
+    const descending = semvers.slice().sort((a, b) => b.localeCompare(a, undefined, { numeric: true }));
+    check(JSON.stringify(semvers) === JSON.stringify(descending), `${label}: versions must be ordered newest first`);
+  }
+  notes.push(`dsh index: ${index.plugins.length} plugin(s)`);
+}
+
 // --- summary ----------------------------------------------------------------
 console.log(`skills: ${skillDirs.length}`);
 for (const meta of skillMeta) console.log(`  ${meta.name.padEnd(28)} ${String(meta.description.length).padStart(4)} chars`);

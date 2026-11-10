@@ -41,6 +41,34 @@ npx dynamsoft-dsh-link --remove   # unlink
 npx dynamsoft-dsh-link --copy     # copy instead of linking (use when links are unavailable)
 ```
 
+## Plugin market index
+
+`index.json` in this directory is a format 1 market index, validated with
+`parseMarketIndex` from `@deepseek-ai/dsh-plugin-market-index`. Add it to DSH to get the bundle
+from the Discover tab or the `plugin_market` tool:
+
+```text
+https://raw.githubusercontent.com/Dynamsoft/dynamsoft-skills/main/dsh/index.json
+```
+
+The current entry installs from **Git, pinned to a commit**, so it works before the package is on
+npm. Once `@dynamsoft/dsh-plugin` is published, switch the version's `source` to
+`{ "type": "npm" }` and drop the commit pin.
+
+**Maintaining it:** the `commit` field is a release pin. After any change under `dsh/`, update it to
+the new commit and re-validate:
+
+```bash
+npm exec --package=@deepseek-ai/dsh-plugin-market-index -- node -e '
+  const { parseMarketIndex } = require("@deepseek-ai/dsh-plugin-market-index");
+  const fs = require("node:fs");
+  parseMarketIndex(JSON.parse(fs.readFileSync("dsh/index.json", "utf8")), "https://example.invalid/dsh/index.json");
+  console.log("index ok");
+'
+```
+
+`node scripts/verify.mjs` checks the same structure in CI without the dependency.
+
 ## What you get
 
 **Tools** appear as `mcp__dynamsoft__<tool>`:

@@ -1,0 +1,44 @@
+{
+  "format": 1,
+  "title": "Dynamsoft",
+  "description": "Agent skills for integrating Dynamsoft SDKs, plus the trial-license MCP server.",
+  "metadata": {
+    "categories": {
+      "developer-tools": { "title": "Developer Tools" }
+    },
+    "labels": {},
+    "sortKeys": {}
+  },
+  "plugins": [
+    {
+      "name": "@dynamsoft/dsh-plugin",
+      "title": "Dynamsoft SDK",
+      "description": "Skills for barcode, MRZ, document capture, Web TWAIN and Document Viewer, and an MCP server that issues trial license keys.",
+      "author": "Dynamsoft",
+      "homepage": "https://github.com/Dynamsoft/dynamsoft-skills",
+      "repository": {
+        "url": "https://github.com/Dynamsoft/dynamsoft-skills",
+        "directory": "dsh"
+      },
+      "metadata": {
+        "category": "developer-tools",
+        "keywords": ["dynamsoft", "barcode", "mrz", "document-scanner", "web-twain", "mcp"],
+        "labels": [],
+        "sortKeys": {}
+      },
+      "versions": [
+        {
+          "version": "1.0.0",
+          "publishTimestamp": 1794299615,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/Dynamsoft/dynamsoft-skills",
+            "commit": "5be197ae9760f44a8f51fcb4d79b69eb851d86b5",
+            "path": "dsh"
+          },
+          "engines": { "dsh": ">=0.2.0" }
+        }
+      ]
+    }
+  ]
+}
