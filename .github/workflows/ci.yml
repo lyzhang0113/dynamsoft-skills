@@ -113,11 +113,19 @@ jobs:
             | tee "$GITHUB_WORKSPACE/out-java.txt"
           grep -qE "^items: [1-9]" "$GITHUB_WORKSPACE/out-java.txt"
       - name: .NET barcode decode
-        if: env.LICENSE_SET == '1'
+        # Dynamsoft.DotNet.BarcodeReader.Bundle 11.6.5000 ships win/linux natives only
+        # (build/windows, build/linux); macOS throws DllNotFoundException for
+        # DynamsoftBarcodeReader_C. .NET is therefore covered on two runners, not three.
+        if: env.LICENSE_SET == '1' && runner.os != 'macOS'
         shell: bash
         run: |
           dotnet run --project tests/sdk-smoke/dotnet -c Release -- fixture.png | tee out-dotnet.txt
           grep -qE "^items: [1-9]" out-dotnet.txt
+
+      - name: .NET not supported on macOS
+        if: runner.os == 'macOS'
+        shell: bash
+        run: echo "::notice::Skipping the .NET decode: the NuGet bundle has no macOS natives."
 
       - name: Upload logs
         if: always()
