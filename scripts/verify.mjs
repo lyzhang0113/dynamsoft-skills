@@ -143,21 +143,27 @@ notes.push(`dsh bundle: ${dshPackage.name}@${dshPackage.version}`);
 
 // --- encoding ---------------------------------------------------------------
 // A UTF-8 BOM breaks YAML frontmatter and JSON.parse, and it has slipped in twice.
+// Mojibake (UTF-8 read as Windows-1252 and saved again, so an em dash becomes the three
+// characters U+00E2 U+20AC U+201D) has slipped in through Windows editors; agents copy it
+// verbatim into generated code.
 const bomFiles = [];
+const mojibakeFiles = [];
+const mojibake = /[ÂÃâ][\u0080-\u00bf\u0152-\u0192\u02c6-\u02dc\u2013-\u2122]/;
 const walk = (dir) => {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     if (entry.name === "node_modules" || entry.name === ".git" || entry.name === "dsh") continue;
     const full = join(dir, entry.name);
     if (entry.isDirectory()) { walk(full); continue; }
-    if (!/\.(md|json|ya?ml)$/.test(entry.name)) continue;
-    const head = readFileSync(full).subarray(0, 3);
-    if (head.length === 3 && head[0] === 0xef && head[1] === 0xbb && head[2] === 0xbf) {
-      bomFiles.push(full.slice(root.length + 1));
-    }
+    if (!/\.(md|json|ya?ml|mjs|js|py|html|txt)$|^\.gitignore$/.test(entry.name)) continue;
+    const bytes = readFileSync(full);
+    const rel = full.slice(root.length + 1);
+    if (bytes.length >= 3 && bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf) bomFiles.push(rel);
+    if (mojibake.test(bytes.toString("utf8"))) mojibakeFiles.push(rel);
   }
 };
 walk(root);
 check(bomFiles.length === 0, `files start with a UTF-8 BOM: ${bomFiles.join(", ")}`);
+check(mojibakeFiles.length === 0, `files contain mojibake (UTF-8 decoded as Windows-1252): ${mojibakeFiles.join(", ")}`);
 
 // --- dsh market index -------------------------------------------------------
 // Structural checks mirroring format 1; the authoritative validator is
