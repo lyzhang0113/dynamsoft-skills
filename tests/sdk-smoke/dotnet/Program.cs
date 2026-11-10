@@ -1,7 +1,5 @@
 // .NET smoke test: decode the QR fixture with Dynamsoft.DotNet.BarcodeReader.Bundle.
-using Dynamsoft.Core;
 using Dynamsoft.CVR;
-using Dynamsoft.DBR;
 using Dynamsoft.License;
 
 if (args.Length != 1)
@@ -17,28 +15,29 @@ if (string.IsNullOrEmpty(key))
     return 2;
 }
 
-var licenseError = LicenseManager.InitLicense(key);
+var licenseError = LicenseManager.InitLicense(key, out var licenseMessage);
 if (licenseError != 0)
 {
-    Console.Error.WriteLine($"license failed: {licenseError}");
+    Console.Error.WriteLine($"license failed: {licenseError} {licenseMessage}");
     return 1;
 }
 
 var router = new CaptureVisionRouter();
-var result = router.Capture(args[0], EnumPresetTemplate.PT_READ_BARCODES);
+// The template name is a plain string in the .NET binding.
+var result = router.Capture(args[0], "ReadBarcodes_Default");
 if (result.GetErrorCode() != 0)
 {
-    Console.Error.WriteLine($"capture failed: {result.GetErrorString()}");
+    Console.Error.WriteLine($"capture failed: {result.GetErrorCode()} {result.GetErrorString()}");
     return 1;
 }
 
 var found = 0;
-foreach (var item in result.GetItems())
+var decoded = result.GetDecodedBarcodesResult();
+if (decoded is not null)
 {
-    if (item.GetItemType() != EnumCapturedResultItemType.CRIT_BARCODE) continue;
-    if (item is BarcodeResultItem barcode)
+    foreach (var item in decoded.GetItems())
     {
-        Console.WriteLine($"text: {barcode.GetText()}");
+        Console.WriteLine($"text: {item.GetText()}");
         found++;
     }
 }

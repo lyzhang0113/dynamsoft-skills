@@ -110,7 +110,7 @@ generated QR fixture through every language binding:
 | Python | `tests/sdk-smoke/python/scan.py` | executed |
 | Node.js | `tests/sdk-smoke/node/scan.mjs` | executed |
 | Java | `tests/sdk-smoke/java/Scan.java` | executed |
-| .NET | `tests/sdk-smoke/dotnet` | build verified, run in CI |
+| .NET | `tests/sdk-smoke/dotnet` | builds; decode runs in CI |
 
 The workflow needs a repository secret named `DYNAMSOFT_LICENSE_KEY`; without it the SDK jobs are
 skipped with a warning rather than failing. See [`docs/coverage.md`](docs/coverage.md) for the tier

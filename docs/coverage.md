@@ -44,7 +44,7 @@ definitions (`CRIT_DETECTED_QUAD = 8`, `CRIT_PARSED_RESULT = 32`) at T3.
 | Desktop | Python | `capture-vision-desktop` | **T1** |
 | Desktop | Node.js | `capture-vision-desktop` | **T1** |
 | Desktop | Electron | `capture-vision-desktop` | T3 (same native module as Node) |
-| Desktop | .NET | `capture-vision-desktop` | T2 (SDK not installed here; covered by CI) |
+| Desktop | .NET | `capture-vision-desktop` | T2 (builds against SDK 11.6.5000; decode runs in CI) |
 | Desktop | Java | `capture-vision-desktop` | **T1** (JDK 17) |
 | Desktop | C++ | `capture-vision-desktop` | T2 (no compiler here) |
 
