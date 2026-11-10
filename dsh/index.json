@@ -33,7 +33,7 @@
           "source": {
             "type": "git",
             "url": "https://github.com/Dynamsoft/dynamsoft-skills",
-            "commit": "5be197ae9760f44a8f51fcb4d79b69eb851d86b5",
+            "commit": "325abbd9f16afc1f59abe5b68663182aa3e8f690",
             "path": "dsh"
           },
           "engines": { "dsh": ">=0.2.0" }
