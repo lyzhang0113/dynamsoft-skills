@@ -22,7 +22,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Manifests, frontmatter, DSH bundle
+      - name: Manifests, frontmatter, encoding
         run: node scripts/verify.mjs
 
   sdk-smoke:

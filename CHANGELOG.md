@@ -20,9 +20,8 @@ The released version here must match `.claude-plugin/plugin.json`,
 - Trial-license provisioning through the `dynamsoft-license-mcp` server: `get_trial_license`,
   `get_license_guide`, `describe_license`, `get_trial_page_url`. Every implementation skill
   documents the MCP flow, the edition rule and the manual fallback.
-- Plugin manifests for Claude Code, Cursor and Codex, plus a DeepSeek Harness bundle
-  (`dynamsoft-dsh-plugin`, under `dsh/`) that adds the MCP client row and links the skills.
-- `scripts/verify.mjs`: manifest agreement, portable frontmatter, DSH patch and encoding checks.
+- Plugin manifests for Claude Code, Cursor and Codex.
+- `scripts/verify.mjs`: manifest agreement, portable frontmatter and encoding checks.
 - `tests/sdk-smoke/`: one QR decode per language binding (Python, Node.js, Java, .NET), run on
   Linux, Windows and macOS in CI.
 
@@ -31,6 +30,6 @@ The released version here must match `.claude-plugin/plugin.json`,
 - Skills are split by platform rather than by capability, because the SDK is packaged per platform
   and the capability is selected by template.
 - Frontmatter is limited to `name` and `description` so the same `SKILL.md` works unchanged in
-  Claude Code, Cursor, Codex and DeepSeek Harness.
+  Claude Code, Cursor and Codex.
 - Document and MRZ behaviour that needs a custom UX is documented as a Capture Vision task, not as
   a Document Scanner / MRZ Scanner configuration.

@@ -20,7 +20,6 @@ Or install through your agent's own marketplace:
 | Claude Code | `/plugin marketplace add Dynamsoft/dynamsoft-skills` then `/plugin install dynamsoft-sdk@dynamsoft-plugins` |
 | Cursor | `/add-plugin dynamsoft-sdk`, or the marketplace listing |
 | Codex CLI | `codex plugin marketplace add Dynamsoft/dynamsoft-skills` then `codex plugin add dynamsoft-sdk@dynamsoft-plugins` |
-| DeepSeek Harness | `npm i dynamsoft-dsh-plugin`, or copy the skills (see `dsh/README.md`) |
 
 ## Skills
 
@@ -84,8 +83,7 @@ The skills target these versions (checked 2026-11-10):
 .codex-plugin/     Codex / OpenAI plugin manifest
 .mcp.json          the license MCP server entry
 skills/            one directory per skill
-dsh/               dynamsoft-dsh-plugin bundle (DeepSeek Harness)
-scripts/verify.mjs manifest, frontmatter and bundle checks
+scripts/verify.mjs manifest, frontmatter and encoding checks
 ```
 
 ## Privacy and data flow
@@ -118,14 +116,11 @@ Dynamsoft's own privacy policy: <https://www.dynamsoft.com/privacy/>.
 ## Development
 
 ```bash
-node scripts/verify.mjs                    # manifests, frontmatter, DSH patch
-node dsh/scripts/prepare-skills.mjs        # snapshot skills into the DSH bundle
-node dsh/scripts/link-skills.mjs --dry-run # show where skills would be linked
+node scripts/verify.mjs                    # manifests, frontmatter, encoding
 ```
 
 Every skill's frontmatter is deliberately limited to `name` and `description` so the same file works
-unchanged in Claude Code, Cursor, Codex and DeepSeek Harness. `whenToUse` and other provider-specific
-keys are not used.
+unchanged in Claude Code, Cursor and Codex.
 
 ## Tests
 
