@@ -7,7 +7,7 @@ Guidance for people and coding agents changing this repository.
 - One skill per directory: `skills/<name>/SKILL.md`, with longer material in `skills/<name>/references/`.
 - The frontmatter holds exactly `name` (equal to the directory name) and `description`. No
   `whenToUse` or other provider-specific keys — the same file must load unchanged in Claude Code,
-  Cursor, Codex and DeepSeek Harness.
+  Cursor and Codex.
 - A new skill also needs an entry in `skills.sh.json` and a row in the README skills table.
 - Skills are installed one at a time (`npx skills add … --skill <name>`), so a skill must not depend
   on another skill's files. Refer to another skill by name ("the `dynamsoft-sdk` skill"), never by a
@@ -17,9 +17,11 @@ Guidance for people and coding agents changing this repository.
 
 - **Description = routing.** Say what the skill covers, then "Use when …" with the phrasings users
   actually type (frameworks, error messages, workflows). The agent loads a skill only if this matches.
-- **Licence keys** come from the `dynamsoft-license-mcp` tools and an environment variable
-  (`DYNAMSOFT_LICENSE_KEY`). Generated code uses a placeholder or the variable, never a literal key;
-  chat output shows only `licenseKeyMasked`.
+- **Licence keys** reach generated code through configuration (`DYNAMSOFT_LICENSE_KEY` or a
+  placeholder), never as a literal key, and chat output shows only a masked form. Whether skills
+  obtain keys through the licensing MCP is undecided
+  ([#9](https://github.com/Dynamsoft/dynamsoft-skills/issues/9)); until it is decided, do not add
+  new unconditional MCP tool calls to skills.
 - **Licence and trial wording** follows the official docs. Do not paraphrase commercial terms.
 - **Versions** live in the README "Version baseline" table and in install commands. Avoid version
   claims in prose unless they document a compatibility boundary.
@@ -42,8 +44,7 @@ Guidance for people and coding agents changing this repository.
 ## Checks
 
 ```bash
-node scripts/verify.mjs                    # manifests, frontmatter, encoding, DSH bundle
-node dsh/scripts/prepare-skills.mjs        # when skills change: refresh the DSH snapshot
+node scripts/verify.mjs                    # manifests, frontmatter, encoding
 ```
 
 CI runs `verify.mjs` on Linux, Windows and macOS, plus the SDK smoke tests in `tests/sdk-smoke/`
