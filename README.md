@@ -10,8 +10,12 @@ licensing, pitfalls and sample links for that job. The agent loads only the one 
 ## Install
 
 ```bash
-npx skills add Dynamsoft/dynamsoft-skills
+npx skills add Dynamsoft/dynamsoft-skills                    # pick skills interactively
+npx skills add Dynamsoft/dynamsoft-skills --skill web-twain  # just one skill
 ```
+
+`npx skills add` also targets OpenCode, Codex and other agents (`--agent opencode`); `--list` shows
+the skills without installing.
 
 Or install through your agent's own marketplace:
 
@@ -56,8 +60,8 @@ The first call opens a browser window for the Google sign-in; after that the ses
 Keys go into an environment variable (`DYNAMSOFT_LICENSE_KEY`), never into generated source, and the
 skills instruct the agent to show only the masked form in conversation.
 
-Dynamic Web TWAIN is the exception: it uses a `t0…` product key, which the same MCP issues when
-asked for `product: "dwt"`.
+Dynamic Web TWAIN reads the key from `Dynamsoft.DWT.ProductKey` instead of `initLicense`; the same
+MCP issues it for `product: "dwt"` (or `"dwt-ddv"` together with Document Viewer).
 
 ## Version baseline
 
@@ -116,8 +120,11 @@ Dynamsoft's own privacy policy: <https://www.dynamsoft.com/privacy/>.
 ## Development
 
 ```bash
-node scripts/verify.mjs                    # manifests, frontmatter, encoding
+node scripts/verify.mjs                    # manifests, frontmatter, BOM and mojibake
 ```
+
+Contribution rules — skill structure, licence wording, and the checks to run — are in
+[`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 Every skill's frontmatter is deliberately limited to `name` and `description` so the same file works
 unchanged in Claude Code, Cursor and Codex.

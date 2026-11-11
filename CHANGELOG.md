@@ -10,6 +10,25 @@ The released version here must match `.claude-plugin/plugin.json`,
 
 ## [Unreleased]
 
+### Added
+
+- `web-twain`: scanner picker, upload semantics, deployment (service installers, ports, CSP,
+  Chromium local-network rules), React/Vue/Angular lifecycle, Barcode Reader, PDF and OCR Connector
+  add-ons; ported from the retired `dynamsoft-sdk-skills` repository (#2).
+- `verify.mjs` rejects mojibake and checks scripts, HTML and `.gitignore` for a BOM (#7).
+- `CONTRIBUTING.md`; README documents single-skill install and other agents (#8).
+
+### Fixed
+
+- `web-twain`: resource copy nested `dist/` (script 404), scan flow that never resolved, OCR API and
+  install steps, licence placeholder and `dwt-ddv` product id (#2).
+- `document-viewer`: contradictory licence guidance and wrong trial link (#3).
+- `dynamsoft-sdk`: mangled skill references, DDV version assumption (#4).
+- `sdk-migration`: sample-index link that does not exist in a single-skill install (#5).
+- Mojibake in `barcode-template-optimizer`, `document-viewer`, `dynamsoft-sdk` and `sdk-migration`;
+  BOMs in `.gitignore` and two optimizer tools (#3–#7).
+- README no longer describes the DWT key as a different kind of key (#8).
+
 ## [1.0.0] - 2026-11-10
 
 ### Added
