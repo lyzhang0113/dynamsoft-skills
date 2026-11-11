@@ -79,7 +79,7 @@ Cause: DWT has two event registration APIs with different scopes:
 
 | API | Scope | Valid events |
 |---|---|---|
-| `Dynamsoft.DWT.RegisterEvent(name, cb)` | **Global** — fires for any WebTwain instance | `OnWebTwainReady` only |
+| `Dynamsoft.DWT.RegisterEvent(name, cb)` | **Global** — SDK lifecycle, not tied to one WebTwain instance | `OnWebTwainReady`, `OnWebTwainError`, `OnWebTwainPreExecute`, `OnWebTwainPostExecute` |
 | `DWTObject.RegisterEvent(name, cb)` | **Instance** — fires only for that specific WebTwain instance | `OnPostAllTransfers`, `OnPostTransfer`, `OnPostLoad`, `OnGetFilePath`, etc. |
 
 Using the global API for instance events silently fails — the callback is never invoked.
