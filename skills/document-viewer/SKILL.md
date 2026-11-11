@@ -93,8 +93,11 @@ Both SDKs take a license key: DWT assigns it to `Dynamsoft.DWT.ProductKey`, DDV 
 4. **Dispose documents and viewers** on route change; otherwise the second visit to the page shows
    the previous document's state.
 5. **Licence scope** — request the key with `product: "ddv"` (or `"dwt-ddv"` alongside Web TWAIN).
-   If `Core.init()` rejects a key that was issued for another product, request a `ddv` key rather
-   than debugging the viewer.
+   If `Core.init()` rejects a key that was issued for another product, get a `ddv` key rather than
+   debugging the viewer. With the licensing MCP, a plain `ddv` request can hand back the same cached
+   key (it reuses unexpired keys across products when the edition matches); pass
+   `force_refresh: true`, which spends one trial request, or apply on the manual trial page:
+   https://www.dynamsoft.com/customer/license/trialLicense/?product=ddv&package=web
 
 ## Samples
 
