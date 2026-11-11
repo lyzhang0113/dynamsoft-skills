@@ -195,9 +195,12 @@ Every end-user machine needs the **Dynamic Web TWAIN Service**. Plan for it befo
   download prompt. Serve `.wasm`, `.msi`, `.pkg`, `.deb` and `.rpm` with correct MIME types.
 - **Silent install** for managed fleets: `msiexec /i DynamicWebTWAINServiceSetup.msi /qn`.
 - **Ports** — the page reaches the service on `127.0.0.1` at 18622/18625 (HTTP) and 18623/18626
-  (HTTPS). If the site sends a Content-Security-Policy, allow
-  `wss://127.0.0.1:18623 wss://127.0.0.1:18626` in `connect-src`, and the `ResourcesPath` origin in
-  `script-src`.
+  (HTTPS). If the site sends a Content-Security-Policy, allow both the HTTP(S) and WebSocket forms
+  in `connect-src`, as in Dynamsoft's
+  [CSP FAQ](https://www.dynamsoft.com/web-twain/docs/faq/content-security-policy-violated.html):
+  `ws://127.0.0.1:18622 wss://127.0.0.1:18623 ws://127.0.0.1:18625 wss://127.0.0.1:18626
+  http://127.0.0.1:18622 https://127.0.0.1:18623 http://127.0.0.1:18625 https://127.0.0.1:18626`.
+  Also allow the `ResourcesPath` origin in `script-src`.
 - **Browser network rules** — Chromium's Private Network Access (94+) blocks plain-HTTP pages from
   reaching localhost services, and Chromium 142+ adds a Local Network Access permission prompt. Serve
   the page over HTTPS (or localhost) and expect users to accept that prompt once.
@@ -216,8 +219,10 @@ Every end-user machine needs the **Dynamic Web TWAIN Service**. Plan for it befo
    must be a served URL whose layout mirrors `node_modules/dwt/dist/`, including `src/`.
 5. **Licence edition** — a key issued for `desktop` fails in the browser with
    `License mismatch: Browser requested`. Request `web` or `cross-platform`.
-6. **Instance vs global events** — `Dynamsoft.DWT.RegisterEvent` is for `OnWebTwainReady` only;
-   register `OnPostAllTransfers`, `OnPostTransfer` etc. on the `DWObject` instance, or they never fire.
+6. **Instance vs global events** — `Dynamsoft.DWT.RegisterEvent` takes only the global lifecycle
+   events: `OnWebTwainReady`, `OnWebTwainError` (initialization failures, before any instance
+   exists), `OnWebTwainPreExecute` and `OnWebTwainPostExecute`. Register `OnPostAllTransfers`,
+   `OnPostTransfer` etc. on the `DWObject` instance, or they never fire.
 7. **SPA teardown** — call `Dynamsoft.DWT.Unload()` when the scanning component unmounts, and guard
    against initializing twice on re-render; otherwise the remount fails on a stale service connection.
 8. **Scanner drivers** — TWAIN on Windows, SANE on Linux, ICA on macOS. A scanner that works in a

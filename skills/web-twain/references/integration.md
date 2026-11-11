@@ -44,7 +44,7 @@ Set these **before** `Load()`. Getting them wrong is the most common setup failu
 | Method | Purpose |
 | --- | --- |
 | `Dynamsoft.DWT.Load()` | Start the SDK; returns a promise, but use `OnWebTwainReady` for the instance |
-| `Dynamsoft.DWT.RegisterEvent("OnWebTwainReady", fn)` | Global ready event — the only event to register globally |
+| `Dynamsoft.DWT.RegisterEvent(name, fn)` | Global lifecycle events only: `OnWebTwainReady`, `OnWebTwainError`, `OnWebTwainPreExecute`, `OnWebTwainPostExecute`. Transfer/buffer events go on the instance |
 | `Dynamsoft.DWT.GetWebTwain(containerId)` | The `WebTwain` instance bound to a container |
 | `Dynamsoft.DWT.Unload()` | Tear down; call on SPA unmount |
 
@@ -111,7 +111,7 @@ cp -r node_modules/dwt/dist/. public/dwt-resources/   # contents of dist, src/ i
 
 | Step | React | Vue | Angular |
 | --- | --- | --- | --- |
-| Configure + `Load()` | `useEffect(() => …, [])` | `onMounted` | `ngOnInit` |
+| Configure + `Load()` | `useEffect(() => …, [])` | `onMounted` | `ngAfterViewInit` (the container in the template does not exist yet in `ngOnInit`) |
 | Keep the instance | `useRef` | a plain variable or `shallowRef` (a deep `ref()` proxies the SDK object) | a component field |
 | `Dynamsoft.DWT.Unload()` | the effect's cleanup | `onUnmounted` | `ngOnDestroy` |
 
@@ -219,10 +219,12 @@ On-device OCR through the service; nothing is uploaded. Pick the engine per call
 ```js
 const ocr = DWObject.Addon.OCRConnector;
 const info = await ocr.GetInstalledOCRInfo();                 // info.engines[]: { name, languages[] }
-const result = await ocr.Recognize(index, {
-  engine: { name: "Windows.Media.Ocr" },
-  settings: { language: "en" }
-});                                                           // result.blocks[].lines[].value / words[]
+for (let i = 0; i < DWObject.HowManyImagesInBuffer; i++) {    // recognize every page you export
+  const result = await ocr.Recognize(i, {
+    engine: { name: "Windows.Media.Ocr" },
+    settings: { language: "en" }
+  });                                                         // result.blocks[].lines[].value / words[]
+}
 await ocr.SaveToPath(DWObject.SelectAllImages(),
   Dynamsoft.DWT.EnumDWT_OCRConnectorOutputFormat.PDF_WITH_EXTRA_TEXTLAYER, "output.pdf");  // searchable PDF
 ```
